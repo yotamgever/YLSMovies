@@ -1,0 +1,164 @@
+﻿html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+
+/* Override Bootstrap*/
+a {
+    cursor: pointer;
+}
+
+.row {
+    margin: 0 !important;
+}
+
+h2 {
+    -webkit-text-shadow: 1px 1px 1px #CCC;
+    text-shadow: 2px 2px 3px #CCC;
+}
+
+/* Movies */
+.savedMovie {
+    width: 15.666667%;
+    height: 58px;
+    border: 1px solid black;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    background: rgb(250,250,250);
+    font-size: 121%;
+    font-family: calibri;
+    border-radius: 10px;
+    padding-left: 1%;
+    cursor: pointer;
+}
+
+.savedMovie > button {
+    position: absolute;
+    top: 0;
+    right: 5%;
+}
+#search-movie-input {
+    width:auto; 
+    float:left; 
+    margin-right:5px;
+}
+
+#movie-search-results, #movie-focused {
+    padding-top: 2%; 
+    padding-left: 2%;
+}
+
+.details, .poster-image {
+    width: 100%;
+}
+
+.small-details {
+    width: 80%;
+}
+
+.poster {
+    width: 20%;
+}
+
+.plot {
+    display: inline-block;
+    padding-top: 2%;
+    -webkit-column-count: 2;
+    column-count: 2;
+}
+
+#movie-search-results tbody tr:hover {
+    cursor: pointer;
+}
+
+/**/
+/* Wrappers */
+.rating-wrap{
+	width:150px;
+	height:25px;
+	position:relative;
+}
+
+
+.radio-wrap{
+	width:100%;
+	height:100%;
+}
+
+/* Radio Buttons */
+input[type=radio] {
+	display:inline-block;
+	position:relative;
+	z-index:2;
+	margin:0;
+	width:17.4%;
+	height:100%;
+	opacity:0;
+}
+
+/* Filled Rating */
+.rating-fill{
+	width:0;
+	height:100%;
+	background:url(http://digualized.com/wp-content/uploads/2014/04/star.png) #efaf16;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:1;
+}
+
+
+/* Checked Inputs */
+
+input[value="5"]:checked + .rating-fill{
+	width:100%;
+}
+
+input[value="4"]:checked + .rating-fill{
+	width:80%;
+}
+
+input[value="3"]:checked + .rating-fill{
+	width:60%;
+}
+
+input[value="2"]:checked + .rating-fill{
+	width:40%;
+}
+
+input[value="1"]:checked + .rating-fill{
+	width:20%;
+}
+
+
+/* Blank Stars */
+
+.rating-blank{
+	width:100%;
+	height:100%;
+	background:url(http://digualized.com/wp-content/uploads/2014/04/star.png) #ccc;
+	position:absolute;
+	top:0;
+	left:0;	
+	z-index:0;
+}
+
+/* Optional Hover Effect */
+
+input[value="5"]:hover + .rating-fill{
+	width:100%;
+}
+
+input[value="4"]:hover + .rating-fill{
+	width:80%;
+}
+
+input[value="3"]:hover + .rating-fill{
+	width:60%;
+}
+
+input[value="2"]:hover + .rating-fill{
+	width:40%;
+}
+
+input[value="1"]:hover + .rating-fill{
+	width:20%;
+}
+/*Rating end*/

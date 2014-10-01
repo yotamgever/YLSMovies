@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - Movie Theater</title>
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        <script type="text/javascript"
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPQW2YwrbB9gqT4fqUm3-AtP9FENcrWIU">
+        </script>
+    
+    </head>
+    <body>
+        
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav" role="tablist">
+                        <li><a href="#home-page" role="tab" data-toggle="tab">Home Page</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Movies<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#movies" role="tab" data-toggle="tab">My Movies</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Top Rates Movies</a></li>
+                            </ul>
+                        </li><li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Searches<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#searches" role="tab" data-toggle="tab">My Searches</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Common Searches</a></li>
+                                <li><a href="#">Searches Over The world</a></li>
+                            </ul>
+                        </li>
+                        <li class="hidden"><a href="#search-results" role="tab" data-toggle="tab">Search Results</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search" onsubmit="return false">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search" id="search-movie-input">
+                        </div>
+                        <button type="submit" class="btn btn-default" onclick="searchMovie()">Submit</button>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right" role="tablist">
+                        @Html.Partial("_LoginPartial")
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section id="alternate" class="col-md-10 col-md-offset-1 tab-content">
+                <div id="home-page" class="container-fluid tab-pane">
+
+                    <div id="recently-watched-videos" class="row">
+                    </div>
+                </div>
+                <div id="movies" class="tab-pane active">
+                    @Html.Partial("../Movie/MovieGeneral")
+                </div>
+                <div id="searches" class="tab-pane">
+                    @Html.Partial("../Search/Search")
+                </div>
+                <div id="search-results" class="tab-pane">
+                    @Html.Partial("../Search/SearchResults")
+                </div>
+                <div id="map-canvas" class="tab-pane">
+
+                </div>
+            </section>
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+
+        <footer>
+            <div class="content-wrapper">
+                
+            </div>
+        </footer>
+
+        <div class="modal" id="myModal" aria-hidden=true tabindex="-1" role="dialog" style="display:none">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <section class="details">
+                            <div class="small-details pull-left">
+                                <p><span id="title"></span> (<span id="year"></span>)</p>
+                                <p id="genre"></p>
+                                <p id="director"></p>
+                            </div>
+                            <div class="poster pull-left">
+                                <img src="" class="poster-image" />
+                            </div>
+                        </section>
+                        <section class="plot">
+
+                        </section>
+                    </div>
+                    <div class="modal-footer">
+                        	<div class="rating-wrap pull-left">
+		<div class="radio-wrap">
+			<input type="radio" name="rating" value="1"/>
+			<div class="rating-fill"></div>
+
+			<input type="radio" name="rating" value="2" />
+			<div class="rating-fill"></div>
+
+			<input type="radio" name="rating" value="3" />
+			<div class="rating-fill"></div>
+
+			<input type="radio" name="rating" value="4" />
+			<div class="rating-fill"></div>
+
+			<input type="radio" name="rating" value="5" />
+			<div class="rating-fill"></div>
+		</div>
+		<div class="rating-blank"></div>
+	</div>
+                        <div id="buttons"></div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/movie-theater")
+        @RenderSection("scripts", required: false)
+        
+    </body>
+</html>
