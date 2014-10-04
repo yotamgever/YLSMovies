@@ -265,11 +265,20 @@
     <Content Include="images\forward_disabled.png" />
     <Content Include="images\forward_enabled.png" />
     <Content Include="images\forward_enabled_hover.png" />
+    <Content Include="images\LiamNeeson.jpg" />
+    <Content Include="images\Lior.jpg" />
+    <Content Include="images\oliviawilde.jpg" />
+    <Content Include="images\scarlettjoanson.jpg" />
+    <Content Include="images\Shirit.jpg" />
     <Content Include="images\sort_asc.png" />
     <Content Include="images\sort_asc_disabled.png" />
     <Content Include="images\sort_both.png" />
     <Content Include="images\sort_desc.png" />
     <Content Include="images\sort_desc_disabled.png" />
+    <Content Include="images\StevenSpielberg.jpg" />
+    <Content Include="images\willsmith.jpg" />
+    <Content Include="images\WorldsLargestIMAXCinemas.mp4" />
+    <Content Include="images\Yotam.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="images\Sorting icons.psd" />
@@ -292,6 +301,7 @@
     <Content Include="Scripts\movies.js" />
     <Content Include="Scripts\noName.js" />
     <Content Include="Scripts\searches.js" />
+    <Content Include="Scripts\utilities.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -321,6 +331,7 @@
     <Content Include="Views\Movie\MovieGeneral.cshtml" />
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Search\SearchResults.cshtml" />
+    <Content Include="Views\Home\HomePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,6 +18,7 @@ namespace MovieTheater
 
             bundles.Add(new ScriptBundle("~/bundles/movie-theater").Include(
                         "~/Scripts/movies*", 
+                        "~/Scripts/utilities*",
                         "~/Scripts/searches*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(

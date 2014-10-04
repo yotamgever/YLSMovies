@@ -5933,8 +5933,8 @@ button.close {
 .panel-body:after,
 .modal-footer:before,
 .modal-footer:after {
-  display: table;
-  content: " ";
+  /*display: table;
+  content: " ";*/
 }
 .clearfix:after,
 .dl-horizontal dd:after,

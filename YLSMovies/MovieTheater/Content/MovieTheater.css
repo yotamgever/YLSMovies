@@ -14,6 +14,84 @@ h2 {
     text-shadow: 2px 2px 3px #CCC;
 }
 
+.navbar {
+    margin-bottom: 0px;
+}
+
+.page-header {
+    margin-top: 10px;
+}
+
+.bs-footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 100px;
+    color: #777;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+}
+
+.bs-footer-links {
+    padding-left: 0;
+    margin-top: 20px;
+    color: #999;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+.bs-footer-links li:first-child {
+    padding-left: 0;
+}
+
+.bs-footer-links li {
+    display: inline;
+    padding: 0 2px;
+}
+
+/* Home Page */
+
+article {
+     -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+
+     -webkit-column-gap: 40px; /* Chrome, Safari, Opera */
+    -moz-column-gap: 40px; /* Firefox */
+    column-gap: 40px;
+}
+
+.author {
+     font-style: italic;
+     color: gray;
+}
+
+aside.sidebar {
+    float:right;
+    width: 25%;
+}
+
+.articles {
+   width: 74%;
+}
+
+.h2 {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.birthday {
+    width: 24%;
+    display: inline-block;
+}
+
+.center {
+    text-align: center;
+}
+
 /* Movies */
 .savedMovie {
     width: 15.666667%;
