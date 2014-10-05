@@ -92,6 +92,12 @@ aside.sidebar {
     text-align: center;
 }
 
+.video {
+    overflow: overlay; 
+    position: relative; 
+    z-index:100000000
+}
+
 /* Movies */
 .savedMovie {
     width: 15.666667%;
