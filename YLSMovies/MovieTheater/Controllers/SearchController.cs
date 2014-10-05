@@ -20,5 +20,10 @@ namespace MovieTheater.Controllers
             Search s = new Search();
             return (Json(s.getSearchesOfUser(strUserName), JsonRequestBehavior.AllowGet));
         }
+
+        public JsonResult getSearchesByName()
+        {
+            return Json(new Search().getNameSearches(), JsonRequestBehavior.AllowGet);
+        }
     }
 }

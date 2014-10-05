@@ -35,7 +35,7 @@ namespace MovieTheater.Models
         {
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
             var searches = from s in context.Searches
-                               select s;
+                           select s;
 
             return (searches);
         }
@@ -102,6 +102,46 @@ namespace MovieTheater.Models
             context.SaveChanges();
 
             return (context.SaveChanges() > 0);
+        }
+
+        /// <summary>
+        /// Get Searches by name
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<object> getNameSearches()
+        {
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            var regularSearches = (from regSearch in context.Searches
+                                   where !regSearch.SearchString.Contains(";")
+                                   group regSearch by regSearch.SearchString into newGroup
+                                   select new
+                                   {
+                                       Name = (string)newGroup.Key,
+                                       Count = (int)(from searches in newGroup select searches.SearchString).Count()
+                                   }).ToList();
+            var advanceSearches = (from newTable in
+                                       (from regSearch in context.Searches.ToArray()
+                                        where regSearch.SearchString.Contains(";")
+                                        select new
+                                        {
+                                            Name = regSearch.SearchString.Split(';')[0].Split(':')[1]
+                                        })
+                                   group newTable by newTable.Name into newGroup
+                                   select new
+                                   {
+                                       Name = (string)newGroup.Key,
+                                       Count = (int)(from searches in newGroup select searches.Name).Count()
+                                   }).ToList();
+
+            var union = from searches in regularSearches.Union(advanceSearches)
+                        group searches by searches.Name into newGroup
+                        select new
+                        {
+                            Name = newGroup.Key,
+                            Count = (from searches in newGroup select searches.Count).Sum()
+                        };
+
+            return union;
         }
     }
 }

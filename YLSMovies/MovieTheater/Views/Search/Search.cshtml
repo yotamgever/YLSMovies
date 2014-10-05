@@ -1,8 +1,4 @@
-﻿@{
-    ViewBag.Title = "Search";
-}
-
-<section>
+﻿<div id="searches" class="tab-pane">
     <h2>My Searches</h2>
     <table id="my-searches">
         <thead>
@@ -13,9 +9,42 @@
             </tr>
         </thead>
     </table>
-</section>
-<hr />
-<section>
+</div>
+<div id="searches-advance-search" class="tab-pane">
+    <h2>Advance Search</h2>
+    <form class="form-horizontal" role="form" onsubmit="return false">
+        <div class="form-group">
+            <label for="movie-name" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="movie-name" placeholder="Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="movie-year" class="col-sm-2 control-label">Year</label>
+            <div class="col-sm-2">
+                <input type="number" class="form-control" id="movie-year" min="1900">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="movie-director" class="col-sm-2 control-label">Director</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="movie-director" placeholder="Director">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="movie-stars" class="col-sm-2 control-label">Stars</label>
+            <div class="col-sm-1">
+                <input type="number" class="form-control" id="movie-stars" min="0" max="5">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" onclick="advanceSearchMovie()">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="searches-all-searches" class="tab-pane">
     <h2>All Searches</h2>
     <table id="all-searches">
         <thead>
@@ -29,6 +58,10 @@
 
         </tbody>
     </table>
-</section>
-
+</div>
+<div id="searches-common-searches" class="tab-pane">
+    <h2>Common Searches</h2>
+    <div>
+    </div>
+</div>
 

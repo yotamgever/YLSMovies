@@ -102,7 +102,7 @@ aside.sidebar {
 /* Movies */
 .savedMovie {
     width: 15.666667%;
-    height: 58px;
+    min-height: 60px;
     border: 1px solid black;
     margin-right: 1%;
     margin-bottom: 1%;
@@ -114,6 +114,7 @@ aside.sidebar {
     cursor: pointer;    
     -webkit-transition: background 1s; 
     transition: background 1s;
+    box-sizing: content-box;
 }
 
 .savedMovie:hover {

@@ -329,7 +329,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\MovieGeneral.cshtml" />
-    <Content Include="Views\Movie\MovieGeneral.cshtml" />
+    <Content Include="Views\Movie\Movie.cshtml" />
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Search\SearchResults.cshtml" />
     <Content Include="Views\Home\HomePage.cshtml" />
