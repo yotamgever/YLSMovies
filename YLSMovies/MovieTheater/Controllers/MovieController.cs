@@ -56,6 +56,28 @@ namespace MovieTheater.Controllers
             return Json(m.searchMovieByTitle(strTitle), JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult searchMovie(String strName, String strDirector, Int32 nYear, Int32 nStars, String strUserName)
+        {
+            String strSearchString = "Name:" + strName + ";Year:" + nYear + ";Director:" + strDirector + ";Stars:" + nStars;
+            Search s = new Search();
+            IQueryable<Search> searches = s.getSearchesOfUser(strUserName);
+            IQueryable<Search> specific = searches.Where(c => c.SearchString == strSearchString);
+
+            if (specific.Count() > 0)
+            {
+                foreach (Search curr in specific)
+                {
+                    curr.updateSearch();
+                }
+            }
+            else
+            {
+                s.addSearch(new Search { UserName = strUserName, SearchString = strSearchString, Date = DateTime.Now });
+            }
+
+            return Json(new Movie { Name = strName, Director = strDirector, Year = nYear, Stars = nStars }.getMoviesByAdvanceSearch(), JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult getMovieByID(String strID)
         {
             return Json(m.getMovieByID(strID), JsonRequestBehavior.AllowGet);
@@ -86,6 +108,17 @@ namespace MovieTheater.Controllers
         {
             Movie wantedMovie = m.getAllMovies().SingleOrDefault(c => c.IMDBID == strMovieID);
             return (wantedMovie != null ? wantedMovie.Stars : -1);
+        }
+
+        public JsonResult getTopRatedMovies()
+        {
+            IEnumerable<Movie> movies = new Movie().getAllMovies();
+            return Json(movies.OrderByDescending(s => s.Stars), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getMostWatchesMovies()
+        {
+            return Json(new UserMovie().getMostWatchedMovies(), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MovieTheater.Models
         public Double Stars { get; set; }
         public Int32 Votes { get; set; }
 
-        #endregion 
+        #endregion
 
         /// <summary>
         /// Add movie
@@ -104,6 +104,20 @@ namespace MovieTheater.Models
             return myMovies;
         }
 
+        public IQueryable<Movie> getMoviesByAdvanceSearch()
+        {
+            TheaterContext context = new TheaterContext();
+            var moviesResult =
+                from movies in context.Movies
+                where (this.Year.Equals(0) || movies.Year.Equals(this.Year)) &&
+                      (this.Name.Equals("") || movies.Name.ToUpper().Contains(this.Name.ToUpper())) &&
+                      (this.Director.Equals("") || movies.Director.ToUpper().Contains(this.Director.ToUpper())) &&
+                      (this.Stars.Equals(0) || ((movies.Stars - this.Stars >= 0) && (movies.Stars - this.Stars <= 1)))
+                select movies;
+
+            return moviesResult;
+        }
+
         public object searchMovieByTitle(String strMovieTitle)
         {
             var client = new RestClient("http://www.omdbapi.com");
@@ -145,10 +159,10 @@ namespace MovieTheater.Models
     public class UserMovie
     {
         [Key]
-        [Column(Order = 1)] 
+        [Column(Order = 1)]
         public virtual String MovieID { get; set; }
         [Key]
-        [Column(Order = 2)] 
+        [Column(Order = 2)]
         public virtual String UserID { get; set; }
 
         public static Boolean isTheMovieOnMyList(String strMovieID, String strUserName)
@@ -187,13 +201,14 @@ namespace MovieTheater.Models
                 // Check if the movie is already on the user's list
                 if (!isTheMovieOnMyList(movieToAdd.IMDBID, strUserName))
                 {
-                    
+
                     // Add the movie to the user
                     context.UserMovies.Add(new UserMovie { UserID = strUserName, MovieID = movieToAdd.IMDBID });
                     context.SaveChanges();
+                    b = true;
                 }
 
-                return (b && true);
+                return (b);
             }
             catch (Exception e)
             {
@@ -233,6 +248,26 @@ namespace MovieTheater.Models
                     answer = false;
                 }
             }
+
+            return answer;
+        }
+
+        public IQueryable<object> getMostWatchedMovies()
+        {
+            TheaterContext context = new TheaterContext();
+            var answer = from userMovies in context.UserMovies
+                         join movies in context.Movies
+                         on userMovies.MovieID equals movies.IMDBID
+                         group new { userMovies, movies } by userMovies.MovieID into newGroup
+                         select new
+                         {
+                             IMDBID = newGroup.Key,
+                             Level = (from moviesOwned in newGroup select moviesOwned.userMovies.MovieID).Count(),
+                             Name = (from moviesOwned in newGroup select moviesOwned.movies.Name).FirstOrDefault(),
+                             Year = (from moviesOwned in newGroup select moviesOwned.movies.Year).FirstOrDefault(),
+                             Director = (from moviesOwned in newGroup select moviesOwned.movies.Director).FirstOrDefault(),
+                             Stars = (from moviesOwned in newGroup select moviesOwned.movies.Stars).FirstOrDefault()
+                         };
 
             return answer;
         }
