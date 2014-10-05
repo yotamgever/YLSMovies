@@ -59,6 +59,10 @@ h2 {
     padding: 0 2px;
 }
 
+.panel-body::before, .panel-body::after {
+    display: none;
+}
+
 /* Home Page */
 
 article {
@@ -104,6 +108,8 @@ aside.sidebar {
     position: relative; 
     z-index:100000000
 }
+
+
 
 /* Movies */
 .savedMovie {
