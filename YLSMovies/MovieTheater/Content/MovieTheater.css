@@ -59,10 +59,6 @@ h2 {
     padding: 0 2px;
 }
 
-.panel-body::before, .panel-body::after {
-    display: none;
-}
-
 /* Home Page */
 
 article {
@@ -103,20 +99,16 @@ aside.sidebar {
     text-align: center;
 }
 
-<<<<<<< HEAD
+.panel-body::before, .panel-body::after {
+    display: none;
+}
+
 .video {
     overflow: overlay; 
     position: relative; 
     z-index:100000000
 }
 
-
-
-=======
-.panel-body::before, .panel-body::after {
-    display: none;
-}
->>>>>>> e762d2f8b52378c9bf6cc5371acf4f2b0fd4466b
 /* Movies */
 .savedMovie {
     width: 15.666667%;
