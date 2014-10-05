@@ -283,6 +283,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="images\Sorting icons.psd" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\FIGHTT.ttf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\dataTables.bootstrap.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />

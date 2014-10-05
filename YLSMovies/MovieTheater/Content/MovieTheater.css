@@ -1,5 +1,10 @@
 ﻿html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
 
+@font-face {
+    font-family: headerFont;
+    src: url(FIGHTT.ttf);
+}
+
 /* Override Bootstrap*/
 a {
     cursor: pointer;
@@ -10,6 +15,8 @@ a {
 }
 
 h2 {
+    font-family: headerFont;
+    font-size: 50px;
     -webkit-text-shadow: 1px 1px 1px #CCC;
     text-shadow: 2px 2px 3px #CCC;
 }
@@ -104,7 +111,13 @@ aside.sidebar {
     font-family: calibri;
     border-radius: 10px;
     padding-left: 1%;
-    cursor: pointer;
+    cursor: pointer;    
+    -webkit-transition: background 1s; 
+    transition: background 1s;
+}
+
+.savedMovie:hover {
+    background: lightgreen;
 }
 
 .savedMovie > button {
