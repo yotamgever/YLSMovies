@@ -103,6 +103,7 @@ aside.sidebar {
     text-align: center;
 }
 
+<<<<<<< HEAD
 .video {
     overflow: overlay; 
     position: relative; 
@@ -111,6 +112,11 @@ aside.sidebar {
 
 
 
+=======
+.panel-body::before, .panel-body::after {
+    display: none;
+}
+>>>>>>> e762d2f8b52378c9bf6cc5371acf4f2b0fd4466b
 /* Movies */
 .savedMovie {
     width: 15.666667%;
