@@ -5,11 +5,8 @@
         <title>@ViewBag.Title - YLSMovies Movie Theater</title>
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-        <script type="text/javascript"
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPQW2YwrbB9gqT4fqUm3-AtP9FENcrWIU">
-        </script>
-    
+        @Scripts.Render("~/bundles/modernizr")    
+                <script src="http://d3js.org/d3.v3.min.js"></script>
     </head>
     <body>
         <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
@@ -21,18 +18,19 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Movies<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#movies" role="tab" data-toggle="tab">My Movies</a></li>
+                                    <li><a href="#movies-my-movies" role="tab" data-toggle="tab">My Movies</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#">Top Rates Movies</a></li>
+                                    <li><a href="#movies-top-rated" role="tab" data-toggle="tab">Top Rated Movies</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Searches<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#searches" role="tab" data-toggle="tab">My Searches</a></li>
+                                    <li><a href="#searches-advance-search" role="tab" data-toggle="tab">Advance Search</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#">Common Searches</a></li>
-                                    <li><a href="#">Searches Over The world</a></li>
+                                    <li><a href="#searches-all-searches" role="tab" data-toggle="tab">All Searches</a></li>
+                                    <li><a href="#searches-common-searches" role="tab" data-toggle="tab">Common Searches</a></li>
                                 </ul>
                             </li>
                             <li class="hidden"><a href="#search-results" role="tab" data-toggle="tab">Search Results</a></li>
@@ -61,15 +59,9 @@
                     <div id="HomePage" class="tab-pane active">
                         @Html.Partial("../Home/HomePage")
                     </div>
-                    <div id="movies" class="tab-pane">
-                        @Html.Partial("../Movie/MovieGeneral")
-                    </div>
-                    <div id="searches" class="tab-pane">
-                        @Html.Partial("../Search/Search")
-                    </div>
-                    <div id="search-results" class="tab-pane">
-                        @Html.Partial("../Search/SearchResults")
-                    </div>
+                    @Html.Partial("../Movie/Movie")
+                    @Html.Partial("../Search/Search")
+                    @Html.Partial("../Search/SearchResults")
                     <div id="map-canvas" class="tab-pane">
 
                     </div>
