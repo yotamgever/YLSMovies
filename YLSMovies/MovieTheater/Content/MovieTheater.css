@@ -99,6 +99,9 @@ aside.sidebar {
     text-align: center;
 }
 
+.panel-body::before, .panel-body::after {
+    display: none;
+}
 /* Movies */
 .savedMovie {
     width: 15.666667%;
