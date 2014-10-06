@@ -157,9 +157,9 @@ function showMyMovies() {
     });
 }
 
-function showTopRatedMovies() {
-    var json = [];
 
+
+function showTopRatedMovies() {
     $.ajax({
         url: "Movie/getTopRatedMovies",
         type: "GET",
@@ -183,25 +183,32 @@ function showTopRatedMovies() {
             }
             oTable.fnClearTable();
 
+            var moviesJson = [];
+            var moviesRateJson = [];
+
             for (i = 0; i < data.length; i++) {
-                json.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
+                moviesJson.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
+                
+                for (j = 0; j <= data[i].Stars; j++) {
+                    moviesRateJson.push(data[i].Name);
+                }
+
             }
 
-            oTable.fnAddData((json));
+            oTable.fnAddData((moviesJson));
+            showTopRatedMoviesGraph(moviesRateJson);
         }
     });
 
 }
 
-function showTopRatedMoviesGraph() {
+function showTopRatedMoviesGraph(MoviesRateJson) {
     $("#top-rated-graph").empty();
 
     var fill = d3.scale.category20();
 
-    d3.layout.cloud().size([300, 300])
-        .words([
-          "Hello", "world", "normally", "you", "want", "more", "words",
-          "than", "this"].map(function (d) {
+    d3.layout.cloud().size([1000, 1000])
+        .words(MoviesRateJson.map(function (d) {
               return { text: d, size: 10 + Math.random() * 90 };
           }))
         .padding(5)
@@ -213,8 +220,8 @@ function showTopRatedMoviesGraph() {
 
     function draw(words) {
         d3.select("#top-rated-graph").append("svg")
-            .attr("width", 300)
-            .attr("height", 300)
+            .attr("width", 1000)
+            .attr("height", 1000)
           .append("g")
             .attr("transform", "translate(150,150)")
           .selectAll("text")
