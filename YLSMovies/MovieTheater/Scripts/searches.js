@@ -139,7 +139,7 @@ function getUserSearches() {
     $.ajax({
         url: "Search/getSearchedByUser",
         type: "GET",
-        //data: { "strUserName": "liorbentov" },
+        data: {  },
         success: function (data) {
             regExp = new RegExp(/\((.*?)\)/);
 

@@ -15,6 +15,7 @@ namespace MovieTheater.Controllers
             return (Json(s.getAllSearches(), JsonRequestBehavior.AllowGet));
         }
 
+        // Shirit
         public JsonResult getSearchedByUser()
         {
             Search s = new Search();

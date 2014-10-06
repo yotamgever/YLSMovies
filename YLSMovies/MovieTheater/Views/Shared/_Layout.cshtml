@@ -35,6 +35,14 @@
                                     <li><a href="#searches-filter-searches" role="tab" data-toggle="tab">Filter Searches</a></li>
                                 </ul>
                             </li>
+                            <!-- Shirit start -->
+                            @{
+                                if (ViewBag.isAdmin == true)
+                                {
+                                    <li><a href="#admin" data-toggle="tab">Administration Panel</a></li>
+                                }
+                            }
+                            <!-- Shirit end -->
                             <li class="hidden"><a href="#search-results" role="tab" data-toggle="tab">Search Results</a></li>
                         </ul>
                         <form class="navbar-form navbar-left" role="search" onsubmit="return false">
@@ -66,6 +74,9 @@
                     @Html.Partial("../Search/SearchResults")
                     @Html.Partial("../Account/Login")
                     @Html.Partial("../Account/Register")
+                    <div id="admin" class="tab-pane">
+                        @Html.Partial("../Home/Admin")
+                    </div>
                     <div id="map-canvas" class="tab-pane">
 
                     </div>

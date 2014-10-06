@@ -47,8 +47,7 @@ function getMovieByID(ID) {
             $.ajax({
                 url: "Movie/isTheMovieOnMyList",
                 data: {
-                    "strMovieID": ID,
-                    "strUserName": "liorbentov"
+                    "strMovieID": ID
                 },
                 type: "GET",
                 success: function (data) {
@@ -94,8 +93,7 @@ function addMovie() {
             "strIMDBID": selectedMovie.imdbID,
             "strName": selectedMovie.Title,
             "strDirector": selectedMovie.Director,
-            "nYear": selectedMovie.Year * 1,
-            "strUserName": "liorbentov"
+            "nYear": selectedMovie.Year * 1
         },
         success: function (answer) {
             if (answer == "True") {
@@ -119,8 +117,7 @@ function removeMovie(movieToRemove) {
         url: "Movie/removeMovieFromUserList",
         type: "POST",
         data: {
-            "strMovieID": movieToRemove,
-            "strUserName": "liorbentov"
+            "strMovieID": movieToRemove
         },
         success: function (answer) {
             if (answer == true) {
@@ -139,7 +136,7 @@ function showMyMovies() {
     $.ajax({
         url: "Movie/getMyMovies",
         type: "GET",
-        data: { "strUserName": "liorbentov" },
+        data: { },
         success: function (data) {
 
             for (i = 0; i < data.length; i++) {

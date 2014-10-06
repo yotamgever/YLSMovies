@@ -159,10 +159,7 @@ namespace MovieTheater.Models
             return results;
         }
 
-        /// <summary>
-        /// Shirit: List of searches
-        /// </summary>
-        /// <returns></returns>
+        // Shirit
         public IQueryable<AllUsers> getAllUsers()
         {
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
@@ -183,6 +180,7 @@ namespace MovieTheater.Models
         }
     }
 
+    // Shirit
     public class AllUsers
     {
         public String userName { get; set; }
