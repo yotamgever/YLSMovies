@@ -99,6 +99,10 @@ aside.sidebar {
     text-align: center;
 }
 
+.panel-body::before, .panel-body::after {
+    display: none;
+}
+
 .video {
     overflow: overlay; 
     position: relative; 
