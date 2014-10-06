@@ -72,8 +72,12 @@
                     @Html.Partial("../Movie/Movie")
                     @Html.Partial("../Search/Search")
                     @Html.Partial("../Search/SearchResults")
-                    @Html.Partial("../Account/Login")
-                    @Html.Partial("../Account/Register")
+                    <div id="log-in" class="tab-pane">
+                        @Html.Partial("../Account/Login")
+                    </div>
+                    <div id="register" class="tab-pane">
+                        @Html.Partial("../Account/Register")
+                    </div>
                     <div id="admin" class="tab-pane">
                         @Html.Partial("../Home/Admin")
                     </div>
