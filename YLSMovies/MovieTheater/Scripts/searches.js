@@ -249,12 +249,11 @@ $("a[href='#searches-common-searches']")
 
 $("a[href='#searches-common-searches']")
     .on('click', function (event) {
-        //getCommonSearches();
         commonSearchesGraph()
     });
 
 function commonSearchesGraph() {
-    $("#searches-common-searches div").empty();
+    $("#searches-graph div").empty();
 
     var diameter = 360,
         format = d3.format(",d"),
@@ -265,7 +264,7 @@ function commonSearchesGraph() {
         .size([diameter, diameter])
         .padding(1.5);
 
-    var svg = d3.select("#searches-common-searches div").append("svg")
+    var svg = d3.select("#searches-graph div").append("svg")
         .attr("width", diameter)
         .attr("height", diameter)
         .attr("class", "bubble");
