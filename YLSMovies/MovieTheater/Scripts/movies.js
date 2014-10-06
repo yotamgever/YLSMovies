@@ -192,7 +192,7 @@ function showTopRatedMovies() {
             }
 
             oTable.fnAddData((moviesJson));
-            showTopRatedMoviesGraph(data);
+            showTopRatedMoviesGraph(moviesRateJson);
         }
     });
 
@@ -217,7 +217,7 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
             .attr("width", 1000)
             .attr("height", 1000)
           .append("g")
-            .attr("transform", "translate(360,200)")
+            .attr("transform", "translate(420,350)")
           .selectAll("text")
             .data(words)
           .enter().append("text")
@@ -232,16 +232,6 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
     }
 }
 
-function Shtuty() {
-    $.ajax({
-        url: "Movie/getMostWatchesMovies",
-        type: "GET",
-        success: function (data) {
-            blablabla = data;
-        }
-    });
-}
-
 $(document).ready(function () {
     // When the user clicks on any option other than Search-Results, the tab disappears
     $("a[role='tab']").each(function () {
@@ -253,7 +243,6 @@ $(document).ready(function () {
 
     $("a[href='#movies-top-rated']").on('click', function () {
         showTopRatedMovies();
-        showTopRatedMoviesGraph();
     });
 
     // Handle the stars rating
