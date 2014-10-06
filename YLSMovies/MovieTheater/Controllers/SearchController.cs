@@ -25,5 +25,13 @@ namespace MovieTheater.Controllers
         {
             return Json(new Search().getNameSearches(), JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult filterSearches(String strSearchString, String dtFrom, String dtTo, String strCountry)
+        {
+            return Json(new Search().filterSearches(strSearchString, 
+                (dtFrom.Equals("") ? DateTime.MinValue : Convert.ToDateTime(dtFrom)), 
+                (dtTo.Equals("") ? DateTime.MinValue : Convert.ToDateTime(dtTo)),
+                strCountry), JsonRequestBehavior.AllowGet);
+        }
     }
 }

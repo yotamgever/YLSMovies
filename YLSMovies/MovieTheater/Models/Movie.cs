@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using MovieTheater.DAL;
+using System.Web.Script.Serialization;
 
 namespace MovieTheater.Models
 {
@@ -118,7 +119,7 @@ namespace MovieTheater.Models
             return moviesResult;
         }
 
-        public object searchMovieByTitle(String strMovieTitle)
+        public object searchMovie(String strMovieTitle)
         {
             var client = new RestClient("http://www.omdbapi.com");
 
@@ -133,6 +134,21 @@ namespace MovieTheater.Models
             RestResponse response = (RestResponse)client.Execute(request);
             var content = response.Content;
 
+            return (content);
+        }
+
+        public object searchMovie(String strMovieTitle, Int32 nYear)
+        {
+            var client = new RestClient("http://www.omdbapi.com");
+
+            var request = new RestRequest("?s={title}&y={year}", Method.GET);
+
+            request.AddUrlSegment("title", strMovieTitle);
+            request.AddUrlSegment("year", nYear.ToString()); 
+
+            // execute the request
+            RestResponse response = (RestResponse)client.Execute(request);
+            var content = response.Content;
             return (content);
         }
 
