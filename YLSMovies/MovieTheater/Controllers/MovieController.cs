@@ -53,12 +53,12 @@ namespace MovieTheater.Controllers
                 s.addSearch(new Search { UserName = "liorbentov", SearchString = strTitle, Date = DateTime.Now });
             }
 
-            return Json(m.searchMovieByTitle(strTitle), JsonRequestBehavior.AllowGet);
+            return Json(m.searchMovie(strTitle), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult searchMovie(String strName, String strDirector, Int32 nYear, Int32 nStars, String strUserName)
+        public JsonResult searchMovie(String strName, Int32 nYear, String strUserName)
         {
-            String strSearchString = "Name:" + strName + ";Year:" + nYear + ";Director:" + strDirector + ";Stars:" + nStars;
+            String strSearchString = "Name:" + strName + ";Year:" + nYear;
             Search s = new Search();
             IQueryable<Search> searches = s.getSearchesOfUser(strUserName);
             IQueryable<Search> specific = searches.Where(c => c.SearchString == strSearchString);
@@ -75,7 +75,7 @@ namespace MovieTheater.Controllers
                 s.addSearch(new Search { UserName = strUserName, SearchString = strSearchString, Date = DateTime.Now });
             }
 
-            return Json(new Movie { Name = strName, Director = strDirector, Year = nYear, Stars = nStars }.getMoviesByAdvanceSearch(), JsonRequestBehavior.AllowGet);
+            return Json(m.searchMovie(strName, nYear), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult getMovieByID(String strID)
