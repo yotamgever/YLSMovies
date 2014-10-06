@@ -15,15 +15,23 @@ namespace MovieTheater.Controllers
             return (Json(s.getAllSearches(), JsonRequestBehavior.AllowGet));
         }
 
-        public JsonResult getSearchedByUser(String strUserName)
+        public JsonResult getSearchedByUser()
         {
             Search s = new Search();
-            return (Json(s.getSearchesOfUser(strUserName), JsonRequestBehavior.AllowGet));
+            return (Json(s.getSearchesOfUser(User.Identity.Name), JsonRequestBehavior.AllowGet));
         }
 
         public JsonResult getSearchesByName()
         {
             return Json(new Search().getNameSearches(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult filterSearches(String strSearchString, String dtFrom, String dtTo, String strCountry)
+        {
+            return Json(new Search().filterSearches(strSearchString, 
+                (dtFrom.Equals("") ? DateTime.MinValue : Convert.ToDateTime(dtFrom)), 
+                (dtTo.Equals("") ? DateTime.MinValue : Convert.ToDateTime(dtTo)),
+                strCountry), JsonRequestBehavior.AllowGet);
         }
     }
 }

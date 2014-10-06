@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using MovieTheater.DAL;
 
 namespace MovieTheater.Models
 {
@@ -22,7 +23,7 @@ namespace MovieTheater.Models
         /// <param name="searchToAdd"></param>
         public void addSearch(Search searchToAdd)
         {
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            TheaterContext context = new TheaterContext();
             context.Searches.Add(searchToAdd);
             context.SaveChanges();
         }
@@ -33,7 +34,7 @@ namespace MovieTheater.Models
         /// <returns></returns>
         public IQueryable<Search> getAllSearches()
         {
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            TheaterContext context = new TheaterContext();
             var searches = from s in context.Searches
                            select s;
 
@@ -47,7 +48,7 @@ namespace MovieTheater.Models
         /// <returns></returns>
         public IQueryable<Search> getSearchesOfUser(String strUserName)
         {
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            TheaterContext context = new TheaterContext();
             var searches = from s in context.Searches
                            where s.UserName == strUserName
                            select s;
@@ -61,7 +62,7 @@ namespace MovieTheater.Models
         /// <returns>Searches that were commited today</returns>
         public IQueryable<Search> getTodaySearches()
         {
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            TheaterContext context = new TheaterContext();
             var searches = from s in context.Searches
                            where s.Date.ToShortDateString().Equals(DateTime.Today.ToShortDateString())
                            select s;
@@ -76,7 +77,7 @@ namespace MovieTheater.Models
         /// <returns>True if there are searches that were deleted</returns>
         public Boolean deleteSearch(Int32 nSearchID)
         {
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            TheaterContext context = new TheaterContext();
             Search s = context.Searches.SingleOrDefault(c => c.SearchID == nSearchID);
             context.Searches.Remove(s);
 
@@ -89,7 +90,7 @@ namespace MovieTheater.Models
         /// <returns>True if there are searches that were updated</returns>
         public Boolean updateSearch()
         {
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            TheaterContext context = new TheaterContext();
             var searches = from s in context.Searches
                            where s.SearchID == this.SearchID
                            select s;
@@ -110,7 +111,7 @@ namespace MovieTheater.Models
         /// <returns></returns>
         public IEnumerable<object> getNameSearches()
         {
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            TheaterContext context = new TheaterContext();
             var regularSearches = (from regSearch in context.Searches
                                    where !regSearch.SearchString.Contains(";")
                                    group regSearch by regSearch.SearchString into newGroup
@@ -143,5 +144,51 @@ namespace MovieTheater.Models
 
             return union;
         }
+
+        public IQueryable<Search> filterSearches(String strSearchString, DateTime dtFrom, DateTime dtTo, String strCountry)
+        {
+            TheaterContext context = new TheaterContext();
+            var results = from searches in context.Searches
+                          join users in context.Users
+                          on searches.UserName equals users.UserName
+                          where (strSearchString.Equals("") || searches.SearchString.Contains(strSearchString)) &&
+                          (dtFrom.Equals(DateTime.MinValue) || searches.Date.CompareTo(dtFrom) > -1) && 
+                          (dtTo.Equals(DateTime.MinValue) || searches.Date.CompareTo(dtTo) < 1) && 
+                          (strCountry.Equals("") || users.Country.Equals(strCountry))
+                          select searches;
+            return results;
+        }
+
+        /// <summary>
+        /// Shirit: List of searches
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<AllUsers> getAllUsers()
+        {
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+
+            var searches = from userMovies in context.UserMovies
+                           join users in context.Users on userMovies.UserID equals users.UserName
+                           group userMovies by new { users.UserName, users.FirstName, users.LastName, users.Admin } into pGroup
+                           select new AllUsers()
+                           {
+                               userName = pGroup.Key.UserName,
+                               firstName = pGroup.Key.FirstName,
+                               lastName = pGroup.Key.LastName,
+                               admin = pGroup.Key.Admin,
+                               moviesNum = pGroup.Count()
+                           };
+
+            return (searches);
+        }
+    }
+
+    public class AllUsers
+    {
+        public String userName { get; set; }
+        public Int32 moviesNum { get; set; }
+        public String firstName { get; set; }
+        public String lastName { get; set; }
+        public Boolean admin { get; set; }
     }
 }

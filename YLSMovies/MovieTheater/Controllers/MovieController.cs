@@ -29,16 +29,16 @@ namespace MovieTheater.Controllers
 
         //
         [HttpPost]
-        public bool addNewMovieToUser(String strIMDBID, String strName, String strDirector, Int32 nYear, String strUserName)
+        public bool addNewMovieToUser(String strIMDBID, String strName, String strDirector, Int32 nYear)
         {
             Movie movieToAdd = new Movie { IMDBID = strIMDBID, Name = strName, Director = strDirector, Year = nYear };
-            return UserMovie.addNewMovieToUser(movieToAdd, strUserName);
+            return UserMovie.addNewMovieToUser(movieToAdd, User.Identity.Name);
         }
 
         public JsonResult searchMoviesByTitle(String strTitle)
         {
             Search s = new Search();
-            IQueryable<Search> searches = s.getSearchesOfUser("liorbentov");
+            IQueryable<Search> searches = s.getSearchesOfUser(User.Identity.Name);
             IQueryable<Search> specific = searches.Where(c => c.SearchString == strTitle);
 
             if (specific.Count() > 0)
@@ -50,15 +50,15 @@ namespace MovieTheater.Controllers
             }
             else
             {
-                s.addSearch(new Search { UserName = "liorbentov", SearchString = strTitle, Date = DateTime.Now });
+                s.addSearch(new Search { UserName = User.Identity.Name, SearchString = strTitle, Date = DateTime.Now });
             }
 
-            return Json(m.searchMovieByTitle(strTitle), JsonRequestBehavior.AllowGet);
+            return Json(m.searchMovie(strTitle), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult searchMovie(String strName, String strDirector, Int32 nYear, Int32 nStars, String strUserName)
+        public JsonResult searchMovie(String strName, Int32 nYear, String strUserName)
         {
-            String strSearchString = "Name:" + strName + ";Year:" + nYear + ";Director:" + strDirector + ";Stars:" + nStars;
+            String strSearchString = "Name:" + strName + ";Year:" + nYear;
             Search s = new Search();
             IQueryable<Search> searches = s.getSearchesOfUser(strUserName);
             IQueryable<Search> specific = searches.Where(c => c.SearchString == strSearchString);
@@ -75,7 +75,7 @@ namespace MovieTheater.Controllers
                 s.addSearch(new Search { UserName = strUserName, SearchString = strSearchString, Date = DateTime.Now });
             }
 
-            return Json(new Movie { Name = strName, Director = strDirector, Year = nYear, Stars = nStars }.getMoviesByAdvanceSearch(), JsonRequestBehavior.AllowGet);
+            return Json(m.searchMovie(strName, nYear), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult getMovieByID(String strID)
@@ -83,14 +83,14 @@ namespace MovieTheater.Controllers
             return Json(m.getMovieByID(strID), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getMyMovies(String strUserName)
+        public JsonResult getMyMovies()
         {
-            return Json(m.getMyMovies(strUserName).ToList(), JsonRequestBehavior.AllowGet);
+            return Json(m.getMyMovies(User.Identity.Name).ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public Boolean isTheMovieOnMyList(String strMovieID, String strUserName)
+        public Boolean isTheMovieOnMyList(String strMovieID)
         {
-            return (m.getMyMovies(strUserName).Where<Movie>(c => c.IMDBID == strMovieID).Count() > 0);
+            return (m.getMyMovies(User.Identity.Name).Where<Movie>(c => c.IMDBID == strMovieID).Count() > 0);
         }
 
         [HttpPut]
@@ -99,9 +99,9 @@ namespace MovieTheater.Controllers
             return (m.updateStars(strMovieID, nStars));
         }
 
-        public JsonResult removeMovieFromUserList(String strMovieID, String strUserName)
+        public JsonResult removeMovieFromUserList(String strMovieID)
         {
-            return Json(new UserMovie().deleteUserMovie(strMovieID, strUserName), JsonRequestBehavior.AllowGet);
+            return Json(new UserMovie().deleteUserMovie(strMovieID, User.Identity.Name), JsonRequestBehavior.AllowGet);
         }
 
         public Double getMovieStars(String strMovieID)

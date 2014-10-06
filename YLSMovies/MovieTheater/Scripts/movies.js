@@ -157,6 +157,8 @@ function showMyMovies() {
     });
 }
 
+
+
 function showTopRatedMovies() {
     $.ajax({
         url: "Movie/getTopRatedMovies",
@@ -181,15 +183,54 @@ function showTopRatedMovies() {
             }
             oTable.fnClearTable();
 
-            var json = [];
+            var moviesJson = [];
+            var moviesRateJson = [];
+
             for (i = 0; i < data.length; i++) {
-                json.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
+                moviesJson.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
+                
+                moviesRateJson.push({"text": data[i].Name, "size":data[i].Stars});
             }
 
-            oTable.fnAddData((json));
+            oTable.fnAddData((moviesJson));
+            showTopRatedMoviesGraph(moviesRateJson);
         }
     });
 
+}
+
+function showTopRatedMoviesGraph(MoviesRateJson) {
+    $("#top-rated-graph").empty();
+
+    var fill = d3.scale.category20();
+
+    d3.layout.cloud().size([1000, 1000])
+        .words(MoviesRateJson)
+        .padding(5)
+        .rotate(function () { return ~~(Math.random() * 2) * 90; })
+        .font("Impact")
+        .fontSize(function (d) { return (d.size + 1) * 10; })
+        .on("end", draw)
+        .start();
+
+    function draw(words) {
+        d3.select("#top-rated-graph").append("svg")
+            .attr("width", 1000)
+            .attr("height", 1000)
+          .append("g")
+            .attr("transform", "translate(360,200)")
+          .selectAll("text")
+            .data(words)
+          .enter().append("text")
+            .style("font-size", function (d) { return d.size + "px"; })
+            .style("font-family", "Impact")
+            .style("fill", function (d, i) { return fill(i); })
+            .attr("text-anchor", "middle")
+            .attr("transform", function (d) {
+                return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+            })
+            .text(function (d) { return d.text; });
+    }
 }
 
 function Shtuty() {
@@ -213,6 +254,7 @@ $(document).ready(function () {
 
     $("a[href='#movies-top-rated']").on('click', function () {
         showTopRatedMovies();
+        showTopRatedMoviesGraph();
     });
 
     // Handle the stars rating

@@ -17,6 +17,9 @@ namespace MovieTheater.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        // Shirit
+        User u = new User();
+
         //
         // GET: /Account/Login
 
@@ -80,6 +83,12 @@ namespace MovieTheater.Controllers
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    // Shirit
+                    u.UserName = model.UserName;
+                    u.FirstName = model.FirstName;
+                    u.LastName = model.LastName;
+                    u.Admin = false;
+                    u.addUser();
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
@@ -288,6 +297,12 @@ namespace MovieTheater.Controllers
             ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
+        }
+
+        // Shirit
+        public Boolean addAdmin(String strUserName)
+        {
+            return (u.addAdmin(strUserName));
         }
 
         //

@@ -5,8 +5,7 @@
         <title>@ViewBag.Title - YLSMovies Movie Theater</title>
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")    
-                <script src="http://d3js.org/d3.v3.min.js"></script>
+        @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
         <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
@@ -18,8 +17,10 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Movies<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
+                                    @if (!User.Identity.Name.Equals("")) {
                                     <li><a href="#movies-my-movies" role="tab" data-toggle="tab">My Movies</a></li>
                                     <li class="divider"></li>
+                                    }
                                     <li><a href="#movies-top-rated" role="tab" data-toggle="tab">Top Rated Movies</a></li>
                                 </ul>
                             </li>
@@ -30,7 +31,8 @@
                                     <li><a href="#searches-advance-search" role="tab" data-toggle="tab">Advance Search</a></li>
                                     <li class="divider"></li>
                                     <li><a href="#searches-all-searches" role="tab" data-toggle="tab">All Searches</a></li>
-                                    <li><a href="#searches-common-searches" role="tab" data-toggle="tab">Common Searches</a></li>
+                                    <li><a href="#searches-graph" role="tab" data-toggle="tab">Common Searches</a></li>
+                                    <li><a href="#searches-filter-searches" role="tab" data-toggle="tab">Filter Searches</a></li>
                                 </ul>
                             </li>
                             <li class="hidden"><a href="#search-results" role="tab" data-toggle="tab">Search Results</a></li>
@@ -62,6 +64,8 @@
                     @Html.Partial("../Movie/Movie")
                     @Html.Partial("../Search/Search")
                     @Html.Partial("../Search/SearchResults")
+                    @Html.Partial("../Account/Login")
+                    @Html.Partial("../Account/Register")
                     <div id="map-canvas" class="tab-pane">
 
                     </div>

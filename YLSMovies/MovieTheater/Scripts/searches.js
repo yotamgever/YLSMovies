@@ -54,9 +54,7 @@ function advanceSearchMovie(params) {
     if (!params) {
         params = {};
         params.strName = $("#movie-name").val() || "";
-        params.strDirector = $("#movie-director").val() || "";
         params.nYear = $("#movie-year").val() || 0;
-        params.nStars = $("#movie-stars").val() || 0;
         params.strUserName = "liorbentov";
     }
 
@@ -65,7 +63,8 @@ function advanceSearchMovie(params) {
         data: params,
         type: "GET",
         success: function (data) {
-            console.log(data);
+            data = JSON.parse(data);
+
             $("#movie-focused").hide();
             $("#movie-search-results").show();
 
@@ -88,9 +87,12 @@ function advanceSearchMovie(params) {
 
             // Check if there are movies
             if (!data.Error) {
+                data = data.Search;
                 var json = [];
                 for (i = 0; i < data.length; i++) {
-                    json.push([data[i].IMDBID, data[i].Name, data[i].Year]);
+                    if (data.Type == "movie") {
+                        json.push([data[i].imdbID, data[i].Title, data[i].Year]);
+                    }
                 }
                 oTable.fnAddData((json));
 
@@ -127,9 +129,7 @@ function searchMovie(movieToSearch) {
     else {
         res = movieToSearch.split(";");
         params.strName = res[0].split(":")[1] || "";
-        params.strDirector = res[2].split(":")[1] || "";
         params.nYear = res[1].split(":")[1] || 0;
-        params.nStars = res[3].split(":")[1] || 0;
 
         advanceSearchMovie(params);
     }
@@ -139,7 +139,7 @@ function getUserSearches() {
     $.ajax({
         url: "Search/getSearchedByUser",
         type: "GET",
-        data: { "strUserName": "liorbentov" },
+        //data: { "strUserName": "liorbentov" },
         success: function (data) {
             regExp = new RegExp(/\((.*?)\)/);
 
@@ -304,4 +304,77 @@ function commonSearchesGraph() {
 
 }
 
-$(document).ready(function () { commonSearchesGraph(); });
+$(document).ready(function () {
+    commonSearchesGraph();
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if (dd < 10) { dd = '0' + dd } if (mm < 10) { mm = '0' + mm } today = yyyy + '-' + mm + '-' + dd;
+
+    $('#filter-to').attr('max', today);
+
+    $('#filter-to').on('change', function () { $('#filter-from').attr('max', $(this).val()) });
+    $('#filter-from').on('change', function () { $('#filter-to').attr('min', $(this).val()) });
+});
+
+function filterSearches() {
+        params = {};
+        params.strSearchString = $("#filter-search-string").val() || "";
+        params.dtFrom = $("#filter-from").val() || "";
+        params.dtTo = $("#filter-to").val() || "";
+        params.strCountry = $("#filter-country").val() || "";
+
+
+    $.ajax({
+        url: "Search/filterSearches",
+        data: params,
+        type: "GET",
+        success: function (data) {
+            data = JSON.parse(data);
+
+            /*$("#movie-focused").hide();
+            $("#movie-search-results").show();
+
+            if ($.fn.DataTable.isDataTable($('#movie-search-results'))) {
+                var oTable = $('#movie-search-results').dataTable();
+            }
+            else {
+                var oTable = $('#movie-search-results').dataTable({
+                    "autoWidth": false,
+                    "columnDefs": [{
+                        "targets": [0],
+                        "visible": false
+                    }, {
+                        "targets": [1, 2],
+                        "width": "50%"
+                    }]
+                });
+            }
+            oTable.fnClearTable();
+
+            // Check if there are movies
+            if (!data.Error) {
+                data = data.Search;
+                var json = [];
+                for (i = 0; i < data.length; i++) {
+                    if (data.Type == "movie") {
+                        json.push([data[i].imdbID, data[i].Title, data[i].Year]);
+                    }
+                }
+                oTable.fnAddData((json));
+
+                $('#movie-search-results tbody')
+                    .on('click', 'tr', function (event) {
+                        getMovieByID(oTable.fnGetData(this)[0]);
+                    });
+            }
+
+            $("#search-string").text("");
+            $("a[href='#search-results']").parent().removeClass("hidden");
+            $("a[href='#search-results']").click();
+            */
+        }
+    });
+}
