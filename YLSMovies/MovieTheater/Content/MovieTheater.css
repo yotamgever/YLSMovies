@@ -102,6 +102,13 @@ aside.sidebar {
 .panel-body::before, .panel-body::after {
     display: none;
 }
+
+.video {
+    overflow: overlay; 
+    position: relative; 
+    z-index:100000000
+}
+
 /* Movies */
 .savedMovie {
     width: 15.666667%;

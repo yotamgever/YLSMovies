@@ -13,6 +13,7 @@ namespace MovieTheater
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                         "~/Scripts/bootstrap*",
+                         "~/Scripts/d3*",
                         "~/Scripts/jquery.dataTables*",
                         "~/Scripts/dataTables*"));
 
