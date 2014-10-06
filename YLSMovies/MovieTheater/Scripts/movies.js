@@ -188,12 +188,11 @@ function showTopRatedMovies() {
 
             for (i = 0; i < data.length; i++) {
                 moviesJson.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
-                
                 moviesRateJson.push({"text": data[i].Name, "size":data[i].Stars});
             }
 
             oTable.fnAddData((moviesJson));
-            showTopRatedMoviesGraph(moviesRateJson);
+            showTopRatedMoviesGraph(data);
         }
     });
 
@@ -203,7 +202,7 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
     $("#top-rated-graph").empty();
 
     var fill = d3.scale.category20();
-
+    
     d3.layout.cloud().size([1000, 1000])
         .words(MoviesRateJson)
         .padding(5)
