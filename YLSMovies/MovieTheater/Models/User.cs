@@ -19,6 +19,58 @@ namespace MovieTheater.Models
         public virtual Country Country { get; set; }
         public Boolean Admin { get; set; }
 
+        // Shirit
+        public Boolean isAdmin(String strUserName)
+        {
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            var answer = from users in context.Users
+                         where users.UserName == strUserName &&
+                               users.Admin == true
+                         select true;
+
+            return (answer.Count() == 1);
+        }
+
+        // Shirit
+        public Boolean addAdmin(String strUserName)
+        {
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            Boolean answer = false;
+            //TheaterContext context = new TheaterContext();
+            User specificUser = context.Users.SingleOrDefault(u => u.UserName == strUserName);
+
+            if (specificUser != null)
+            {
+                specificUser.Admin = true;
+                context.SaveChanges();
+                answer = true;
+            }
+
+            return (answer);
+        }
+
+        // Shirit
+        public Boolean addUser()
+        {
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            try
+            {
+                // Check if the movie is already on the user's list
+                /*if (!isTheMovieOnMyList(movieToAdd.IMDBID, strUserName))
+                {*/
+
+                // Add the movie to the user
+                context.Users.Add(this);
+                context.SaveChanges();
+                //}
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
     }
 
     public class Country

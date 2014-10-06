@@ -158,5 +158,37 @@ namespace MovieTheater.Models
                           select searches;
             return results;
         }
+
+        /// <summary>
+        /// Shirit: List of searches
+        /// </summary>
+        /// <returns></returns>
+        public IQueryable<AllUsers> getAllUsers()
+        {
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+
+            var searches = from userMovies in context.UserMovies
+                           join users in context.Users on userMovies.UserID equals users.UserName
+                           group userMovies by new { users.UserName, users.FirstName, users.LastName, users.Admin } into pGroup
+                           select new AllUsers()
+                           {
+                               userName = pGroup.Key.UserName,
+                               firstName = pGroup.Key.FirstName,
+                               lastName = pGroup.Key.LastName,
+                               admin = pGroup.Key.Admin,
+                               moviesNum = pGroup.Count()
+                           };
+
+            return (searches);
+        }
+    }
+
+    public class AllUsers
+    {
+        public String userName { get; set; }
+        public Int32 moviesNum { get; set; }
+        public String firstName { get; set; }
+        public String lastName { get; set; }
+        public Boolean admin { get; set; }
     }
 }
