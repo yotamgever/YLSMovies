@@ -88,6 +88,7 @@ namespace MovieTheater.Controllers
                     u.FirstName = model.FirstName;
                     u.LastName = model.LastName;
                     u.Admin = false;
+                    u.BirthDate = DateTime.Now;
                     u.addUser();
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
