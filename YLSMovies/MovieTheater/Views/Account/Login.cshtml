@@ -4,10 +4,7 @@
     ViewBag.Title = "Log in";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
-
+<div id="log-in" class="tab-pane">
 <section id="loginForm">
 <h2>Use a local account to log in.</h2>
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
@@ -40,11 +37,7 @@
 }
 </section>
 
-<section class="social" id="socialLoginForm">
-    <h2>Use another service to log in.</h2>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-</section>
-
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
