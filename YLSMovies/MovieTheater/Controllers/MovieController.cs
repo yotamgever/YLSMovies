@@ -37,22 +37,26 @@ namespace MovieTheater.Controllers
 
         public JsonResult searchMoviesByTitle(String strTitle)
         {
-            Search s = new Search();
-            IQueryable<Search> searches = s.getSearchesOfUser(User.Identity.Name);
-            IQueryable<Search> specific = searches.Where(c => c.SearchString == strTitle);
-
-            if (specific.Count() > 0)
+            // Only if the user is logged-in, the search will be saved
+            if (User.Identity.IsAuthenticated)
             {
-                foreach (Search curr in specific)
+                Search s = new Search();
+                IQueryable<Search> searches = s.getSearchesOfUser(User.Identity.Name);
+                IQueryable<Search> specific = searches.Where(c => c.SearchString == strTitle);
+
+                if (specific.Count() > 0)
                 {
-                    curr.updateSearch();
+                    foreach (Search curr in specific)
+                    {
+                        curr.updateSearch();
+                    }
                 }
-            }
-            else
-            {
-                s.addSearch(new Search { UserName = User.Identity.Name, SearchString = strTitle, Date = DateTime.Now });
-            }
+                else
+                {
+                    s.addSearch(new Search { UserName = User.Identity.Name, SearchString = strTitle, Date = DateTime.Now });
+                }
 
+            }
             return Json(m.searchMovie(strTitle), JsonRequestBehavior.AllowGet);
         }
 

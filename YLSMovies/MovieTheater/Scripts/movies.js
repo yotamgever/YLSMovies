@@ -1,22 +1,4 @@
-﻿/*$.ajax({
-    url: "http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?v=2&alt=json",
-    type: "get",
-    success: function (data) {
-        var feed = data.feed;
-        var entries = feed.entry || [];
-        var html = ['<div id="home-page" class="container-fluid">'];
-        for (var i = 0; i < entries.length; i++) {
-            var entry = entries[i];
-            var title = entry.title.$t;
-            var id = entry.id.$t.substring(entry.id.$t.lastIndexOf(":") + 1)
-            html.push('<div class="col-md-4"><embed width="280" height="200" src="http://www.youtube.com/v/' + id + '"><p>' + title + '</p></div>');
-        }
-        html.push("</div>");
-        $("#home-page").html(html);
-    }
-})*/
-
-/*
+﻿/*
 This function displays the details of the specific movie
  it opens a new modal to do so.
 */
@@ -39,11 +21,7 @@ function getMovieByID(ID) {
             $("input:checked").attr('checked', false);
 
             // reset the footer buttons
-            $(".modal-footer div[id='buttons']")
-                .empty()
-                .append(
-                "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>");
-
+            
             $.ajax({
                 url: "Movie/isTheMovieOnMyList",
                 data: {
@@ -53,7 +31,7 @@ function getMovieByID(ID) {
                 type: "GET",
                 success: function (data) {
                     if (data == 'True') {
-                        $(".modal-footer div[id='buttons']").append(
+                        $("#buttons span").append(
                             "<button type='button' class='btn btn-danger' onclick='removeMovie()'>Remove Movie From my List</button>");
                         $(".rating-wrap").show();
                         $.ajax({
@@ -71,7 +49,7 @@ function getMovieByID(ID) {
                         });
                     }
                     else {
-                        $(".modal-footer div[id='buttons']").append(
+                        $("#buttons span").append(
                             "<button type='button' class='btn btn-primary' onclick='addMovie()'>Add Movie To List</button>");
                         $(".rating-wrap").hide();
                     }

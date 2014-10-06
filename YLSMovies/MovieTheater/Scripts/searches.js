@@ -55,7 +55,6 @@ function advanceSearchMovie(params) {
         params = {};
         params.strName = $("#movie-name").val() || "";
         params.nYear = $("#movie-year").val() || 0;
-        params.strUserName = "liorbentov";
     }
 
     $.ajax({
@@ -238,11 +237,10 @@ function getCommonSearches() {
 $("a[href='#searches']")
     .on('click', function (event) {
         getUserSearches();
-        getAllSearches();
     });
 
 
-$("a[href='#searches-common-searches']")
+$("a[href='#searches-all-searches']")
     .on('click', function (event) {
         getAllSearches();
     });
