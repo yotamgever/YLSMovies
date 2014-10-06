@@ -188,7 +188,7 @@ function showTopRatedMovies() {
 
             for (i = 0; i < data.length; i++) {
                 moviesJson.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
-                moviesRateJson.push({"text": data[i].name, "size":})
+                moviesRateJson.push({"text": data[i].Name, "size":data[i].Stars});
             }
 
             oTable.fnAddData((moviesJson));
@@ -204,13 +204,11 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
     var fill = d3.scale.category20();
     
     d3.layout.cloud().size([1000, 1000])
-        .words(MoviesRateJson.map(function (d) {
-              return { text: d.name, size: (d.Stars + 1) * 20 /* 10 + Math.random() * 90*/ };
-          }))
+        .words(MoviesRateJson)
         .padding(5)
         .rotate(function () { return ~~(Math.random() * 2) * 90; })
         .font("Impact")
-        .fontSize(function (d) { return d.size; })
+        .fontSize(function (d) { return (d.size + 1) * 10; })
         .on("end", draw)
         .start();
 
@@ -219,7 +217,7 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
             .attr("width", 1000)
             .attr("height", 1000)
           .append("g")
-            .attr("transform", "translate(150,150)")
+            .attr("transform", "translate(360,200)")
           .selectAll("text")
             .data(words)
           .enter().append("text")
