@@ -182,7 +182,7 @@ function showTopRatedMovies() {
 
             for (i = 0; i < data.length; i++) {
                 moviesJson.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
-                moviesRateJson.push({"text": data[i].name, "size":})
+                moviesRateJson.push({"text": data[i].name, "size": data[i].Stars})
             }
 
             oTable.fnAddData((moviesJson));
@@ -226,16 +226,6 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
             })
             .text(function (d) { return d.text; });
     }
-}
-
-function Shtuty() {
-    $.ajax({
-        url: "Movie/getMostWatchesMovies",
-        type: "GET",
-        success: function (data) {
-            blablabla = data;
-        }
-    });
 }
 
 $(document).ready(function () {

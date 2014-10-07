@@ -17,7 +17,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Movies<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    @if (!User.Identity.Name.Equals("")) {
+                                    @if (User.Identity.IsAuthenticated) {
                                     <li><a href="#movies-my-movies" role="tab" data-toggle="tab">My Movies</a></li>
                                     <li class="divider"></li>
                                     }
@@ -27,7 +27,9 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Searches<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
+                                    @if (User.Identity.IsAuthenticated) {
                                     <li><a href="#searches" role="tab" data-toggle="tab">My Searches</a></li>
+                                    }
                                     <li><a href="#searches-advance-search" role="tab" data-toggle="tab">Advance Search</a></li>
                                     <li class="divider"></li>
                                     <li><a href="#searches-all-searches" role="tab" data-toggle="tab">All Searches</a></li>
@@ -37,7 +39,7 @@
                             </li>
                             <!-- Shirit start -->
                             @{
-                                if (ViewBag.isAdmin == true)
+                                if (User.Identity.IsAuthenticated && ViewBag.isAdmin)
                                 {
                                     <li><a href="#admin" data-toggle="tab">Administration Panel</a></li>
                                 }
@@ -79,7 +81,7 @@
                         @Html.Partial("../Account/Register")
                     </div>
                     <div id="admin" class="tab-pane">
-                        @Html.Partial("../Home/Admin")
+                        
                     </div>
                     <div id="map-canvas" class="tab-pane">
 
