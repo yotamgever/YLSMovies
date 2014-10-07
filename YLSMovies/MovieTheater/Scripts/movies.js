@@ -182,11 +182,11 @@ function showTopRatedMovies() {
 
             for (i = 0; i < data.length; i++) {
                 moviesJson.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
-                moviesRateJson.push({"text": data[i].name, "size": data[i].Stars})
+                moviesRateJson.push({ "text": data[i].Name, "size": data[i].Stars })
             }
 
             oTable.fnAddData((moviesJson));
-            showTopRatedMoviesGraph(data);
+            showTopRatedMoviesGraph(moviesRateJson);
         }
     });
 
@@ -196,15 +196,13 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
     $("#top-rated-graph").empty();
 
     var fill = d3.scale.category20();
-    
+
     d3.layout.cloud().size([1000, 1000])
-        .words(MoviesRateJson.map(function (d) {
-              return { text: d.name, size: (d.Stars + 1) * 20 /* 10 + Math.random() * 90*/ };
-          }))
+        .words(MoviesRateJson)
         .padding(5)
-        .rotate(function () { return ~~(Math.random() * 2) * 90; })
+        .rotate(function (d) { return ~~(Math.random() * 5) * 30 - 60; })
         .font("Impact")
-        .fontSize(function (d) { return d.size; })
+        .fontSize(function (d) { return (d.size + 1) * 20; })
         .on("end", draw)
         .start();
 
@@ -213,7 +211,7 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
             .attr("width", 1000)
             .attr("height", 1000)
           .append("g")
-            .attr("transform", "translate(150,150)")
+            .attr("transform", "translate(500,500)")
           .selectAll("text")
             .data(words)
           .enter().append("text")
@@ -239,7 +237,6 @@ $(document).ready(function () {
 
     $("a[href='#movies-top-rated']").on('click', function () {
         showTopRatedMovies();
-        showTopRatedMoviesGraph();
     });
 
     // Handle the stars rating
