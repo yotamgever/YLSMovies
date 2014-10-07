@@ -27,7 +27,7 @@ namespace MovieTheater.Controllers
             return View();
         }
 
-        //
+        // Shirit
         [HttpPost]
         public bool addNewMovieToUser(String strIMDBID, String strName, String strDirector, Int32 nYear)
         {
@@ -37,51 +37,44 @@ namespace MovieTheater.Controllers
 
         public JsonResult searchMoviesByTitle(String strTitle)
         {
-            // Only if the user is logged-in, the search will be saved
-            if (User.Identity.IsAuthenticated)
+            Search s = new Search();
+            // Shirit
+            IQueryable<Search> searches = s.getSearchesOfUser(User.Identity.Name);
+            IQueryable<Search> specific = searches.Where(c => c.SearchString == strTitle);
+
+            if (specific.Count() > 0)
             {
-                Search s = new Search();
-                IQueryable<Search> searches = s.getSearchesOfUser(User.Identity.Name);
-                IQueryable<Search> specific = searches.Where(c => c.SearchString == strTitle);
-
-                if (specific.Count() > 0)
+                foreach (Search curr in specific)
                 {
-                    foreach (Search curr in specific)
-                    {
-                        curr.updateSearch();
-                    }
+                    curr.updateSearch();
                 }
-                else
-                {
-                    s.addSearch(new Search { UserName = User.Identity.Name, SearchString = strTitle, Date = DateTime.Now });
-                }
-
             }
+            else
+            {
+                // Shirit
+                s.addSearch(new Search { UserName = User.Identity.Name, SearchString = strTitle, Date = DateTime.Now });
+            }
+
             return Json(m.searchMovie(strTitle), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult searchMovie(String strName, Int32 nYear)
+        public JsonResult searchMovie(String strName, Int32 nYear, String strUserName)
         {
             String strSearchString = "Name:" + strName + ";Year:" + nYear;
-            
-            // if user is logged in
-            if (User.Identity.IsAuthenticated)
-            {
-                Search s = new Search();
-                IQueryable<Search> searches = s.getSearchesOfUser(User.Identity.Name);
-                IQueryable<Search> specific = searches.Where(c => c.SearchString == strSearchString);
+            Search s = new Search();
+            IQueryable<Search> searches = s.getSearchesOfUser(strUserName);
+            IQueryable<Search> specific = searches.Where(c => c.SearchString == strSearchString);
 
-                if (specific.Count() > 0)
+            if (specific.Count() > 0)
+            {
+                foreach (Search curr in specific)
                 {
-                    foreach (Search curr in specific)
-                    {
-                        curr.updateSearch();
-                    }
+                    curr.updateSearch();
                 }
-                else
-                {
-                    s.addSearch(new Search { UserName = User.Identity.Name, SearchString = strSearchString, Date = DateTime.Now });
-                }
+            }
+            else
+            {
+                s.addSearch(new Search { UserName = strUserName, SearchString = strSearchString, Date = DateTime.Now });
             }
 
             return Json(m.searchMovie(strName, nYear), JsonRequestBehavior.AllowGet);
@@ -92,11 +85,13 @@ namespace MovieTheater.Controllers
             return Json(m.getMovieByID(strID), JsonRequestBehavior.AllowGet);
         }
 
+        // Shirit
         public JsonResult getMyMovies()
         {
             return Json(m.getMyMovies(User.Identity.Name).ToList(), JsonRequestBehavior.AllowGet);
         }
 
+        // Shirit
         public Boolean isTheMovieOnMyList(String strMovieID)
         {
             return (m.getMyMovies(User.Identity.Name).Where<Movie>(c => c.IMDBID == strMovieID).Count() > 0);
@@ -108,6 +103,7 @@ namespace MovieTheater.Controllers
             return (m.updateStars(strMovieID, nStars));
         }
 
+        // Shirit
         public JsonResult removeMovieFromUserList(String strMovieID)
         {
             return Json(new UserMovie().deleteUserMovie(strMovieID, User.Identity.Name), JsonRequestBehavior.AllowGet);

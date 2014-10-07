@@ -55,6 +55,7 @@ function advanceSearchMovie(params) {
         params = {};
         params.strName = $("#movie-name").val() || "";
         params.nYear = $("#movie-year").val() || 0;
+        params.strUserName = "liorbentov";
     }
 
     $.ajax({
@@ -138,7 +139,7 @@ function getUserSearches() {
     $.ajax({
         url: "Search/getSearchedByUser",
         type: "GET",
-        //data: { "strUserName": "liorbentov" },
+        data: {  },
         success: function (data) {
             regExp = new RegExp(/\((.*?)\)/);
 
@@ -237,16 +238,18 @@ function getCommonSearches() {
 $("a[href='#searches']")
     .on('click', function (event) {
         getUserSearches();
+        getAllSearches();
     });
 
 
-$("a[href='#searches-all-searches']")
+$("a[href='#searches-common-searches']")
     .on('click', function (event) {
         getAllSearches();
     });
 
 $("a[href='#searches-common-searches']")
     .on('click', function (event) {
+        //getCommonSearches();
         commonSearchesGraph()
     });
 
@@ -258,7 +261,7 @@ $("a[href='#searches-filter-searches']")
     });
 
 function commonSearchesGraph() {
-    $("#searches-graph div").empty();
+    $("#searches-common-searches div").empty();
 
     var diameter = 360,
         format = d3.format(",d"),
@@ -269,7 +272,7 @@ function commonSearchesGraph() {
         .size([diameter, diameter])
         .padding(1.5);
 
-    var svg = d3.select("#searches-graph div").append("svg")
+    var svg = d3.select("#searches-common-searches div").append("svg")
         .attr("width", diameter)
         .attr("height", diameter)
         .attr("class", "bubble");

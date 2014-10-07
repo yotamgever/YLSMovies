@@ -87,7 +87,7 @@ namespace MovieTheater.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required]
+        /*[Required]
         [StringLength(100, ErrorMessage = "The {0} must be written in the following format: yyyy-mm-dd.", MinimumLength = 2)]
         [Display(Name = "Bitrhday")]
         [DataType(DataType.Date)]
@@ -95,7 +95,7 @@ namespace MovieTheater.Models
 
         [Required]
         [Display(Name = "Country")]
-        public Country Country { get; set; }
+        public Country Country { get; set; }*/
         // Shirit end
 
         [Required]

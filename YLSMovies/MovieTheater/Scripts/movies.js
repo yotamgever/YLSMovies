@@ -1,4 +1,22 @@
-﻿/*
+﻿/*$.ajax({
+    url: "http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?v=2&alt=json",
+    type: "get",
+    success: function (data) {
+        var feed = data.feed;
+        var entries = feed.entry || [];
+        var html = ['<div id="home-page" class="container-fluid">'];
+        for (var i = 0; i < entries.length; i++) {
+            var entry = entries[i];
+            var title = entry.title.$t;
+            var id = entry.id.$t.substring(entry.id.$t.lastIndexOf(":") + 1)
+            html.push('<div class="col-md-4"><embed width="280" height="200" src="http://www.youtube.com/v/' + id + '"><p>' + title + '</p></div>');
+        }
+        html.push("</div>");
+        $("#home-page").html(html);
+    }
+})*/
+
+/*
 This function displays the details of the specific movie
  it opens a new modal to do so.
 */
@@ -21,17 +39,20 @@ function getMovieByID(ID) {
             $("input:checked").attr('checked', false);
 
             // reset the footer buttons
-            
+            $(".modal-footer div[id='buttons']")
+                .empty()
+                .append(
+                "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>");
+
             $.ajax({
                 url: "Movie/isTheMovieOnMyList",
                 data: {
-                    "strMovieID": ID,
-                    "strUserName": "liorbentov"
+                    "strMovieID": ID
                 },
                 type: "GET",
                 success: function (data) {
                     if (data == 'True') {
-                        $("#buttons span").append(
+                        $(".modal-footer div[id='buttons']").append(
                             "<button type='button' class='btn btn-danger' onclick='removeMovie()'>Remove Movie From my List</button>");
                         $(".rating-wrap").show();
                         $.ajax({
@@ -49,7 +70,7 @@ function getMovieByID(ID) {
                         });
                     }
                     else {
-                        $("#buttons span").append(
+                        $(".modal-footer div[id='buttons']").append(
                             "<button type='button' class='btn btn-primary' onclick='addMovie()'>Add Movie To List</button>");
                         $(".rating-wrap").hide();
                     }
@@ -71,8 +92,7 @@ function addMovie() {
             "strIMDBID": selectedMovie.imdbID,
             "strName": selectedMovie.Title,
             "strDirector": selectedMovie.Director,
-            "nYear": selectedMovie.Year * 1,
-            "strUserName": "liorbentov"
+            "nYear": selectedMovie.Year * 1
         },
         success: function (answer) {
             if (answer == "True") {
@@ -95,8 +115,7 @@ function removeMovie(movieToRemove) {
         url: "Movie/removeMovieFromUserList",
         type: "POST",
         data: {
-            "strMovieID": movieToRemove,
-            "strUserName": "liorbentov"
+            "strMovieID": movieToRemove
         },
         success: function (answer) {
             if (answer == true) {
@@ -115,7 +134,7 @@ function showMyMovies() {
     $.ajax({
         url: "Movie/getMyMovies",
         type: "GET",
-        data: { "strUserName": "liorbentov" },
+        data: { },
         success: function (data) {
 
             for (i = 0; i < data.length; i++) {
@@ -163,11 +182,11 @@ function showTopRatedMovies() {
 
             for (i = 0; i < data.length; i++) {
                 moviesJson.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
-                moviesRateJson.push({"text": data[i].Name, "size":data[i].Stars});
+                moviesRateJson.push({"text": data[i].name, "size":})
             }
 
             oTable.fnAddData((moviesJson));
-            showTopRatedMoviesGraph(moviesRateJson);
+            showTopRatedMoviesGraph(data);
         }
     });
 
@@ -179,11 +198,13 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
     var fill = d3.scale.category20();
     
     d3.layout.cloud().size([1000, 1000])
-        .words(MoviesRateJson)
+        .words(MoviesRateJson.map(function (d) {
+              return { text: d.name, size: (d.Stars + 1) * 20 /* 10 + Math.random() * 90*/ };
+          }))
         .padding(5)
         .rotate(function () { return ~~(Math.random() * 2) * 90; })
         .font("Impact")
-        .fontSize(function (d) { return (d.size + 1) * 10; })
+        .fontSize(function (d) { return d.size; })
         .on("end", draw)
         .start();
 
@@ -192,7 +213,7 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
             .attr("width", 1000)
             .attr("height", 1000)
           .append("g")
-            .attr("transform", "translate(420,350)")
+            .attr("transform", "translate(150,150)")
           .selectAll("text")
             .data(words)
           .enter().append("text")
@@ -207,6 +228,16 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
     }
 }
 
+function Shtuty() {
+    $.ajax({
+        url: "Movie/getMostWatchesMovies",
+        type: "GET",
+        success: function (data) {
+            blablabla = data;
+        }
+    });
+}
+
 $(document).ready(function () {
     // When the user clicks on any option other than Search-Results, the tab disappears
     $("a[role='tab']").each(function () {
@@ -218,6 +249,7 @@ $(document).ready(function () {
 
     $("a[href='#movies-top-rated']").on('click', function () {
         showTopRatedMovies();
+        showTopRatedMoviesGraph();
     });
 
     // Handle the stars rating
