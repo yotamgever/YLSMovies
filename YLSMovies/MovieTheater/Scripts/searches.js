@@ -139,7 +139,7 @@ function getUserSearches() {
     $.ajax({
         url: "Search/getSearchedByUser",
         type: "GET",
-        //data: { "strUserName": "liorbentov" },
+        data: {  },
         success: function (data) {
             regExp = new RegExp(/\((.*?)\)/);
 
@@ -247,14 +247,21 @@ $("a[href='#searches-common-searches']")
         getAllSearches();
     });
 
-$("a[href='#searches-common-searches']")
+$("a[href='#searches-graph']")
     .on('click', function (event) {
         //getCommonSearches();
         commonSearchesGraph()
     });
 
+$("a[href='#searches-filter-searches']")
+    .on('click', function (event) {
+        $("#searches-filter-results").hide();
+        $("#searches-filter-searches form")[0].reset();
+        $("#searches-filter-searches form").show();
+    });
+
 function commonSearchesGraph() {
-    $("#searches-common-searches div").empty();
+    $("#searches-graph div").empty();
 
     var diameter = 360,
         format = d3.format(",d"),
@@ -265,7 +272,7 @@ function commonSearchesGraph() {
         .size([diameter, diameter])
         .padding(1.5);
 
-    var svg = d3.select("#searches-common-searches div").append("svg")
+    var svg = d3.select("#searches-graph div").append("svg")
         .attr("width", diameter)
         .attr("height", diameter)
         .attr("class", "bubble");
@@ -305,7 +312,6 @@ function commonSearchesGraph() {
 }
 
 $(document).ready(function () {
-    commonSearchesGraph();
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
@@ -314,69 +320,80 @@ $(document).ready(function () {
     if (dd < 10) { dd = '0' + dd } if (mm < 10) { mm = '0' + mm } today = yyyy + '-' + mm + '-' + dd;
 
     $('#filter-to').attr('max', today);
-
-    $('#filter-to').on('change', function () { $('#filter-from').attr('max', $(this).val()) });
+    $('#filter-from').attr('value', today);
+    $('#filter-to').attr('value', today);
+    $('#filter-to').on('change', function () {
+        $('#filter-from')
+            .attr('max', $(this).val());
+    });
     $('#filter-from').on('change', function () { $('#filter-to').attr('min', $(this).val()) });
 });
 
 function filterSearches() {
-        params = {};
-        params.strSearchString = $("#filter-search-string").val() || "";
-        params.dtFrom = $("#filter-from").val() || "";
-        params.dtTo = $("#filter-to").val() || "";
-        params.strCountry = $("#filter-country").val() || "";
-
+    params = {};
+    params.strSearchString = $("#filter-search-string").val() || "";
+    params.dtFrom = $("#filter-from").val() || "";
+    params.dtTo = $("#filter-to").val() || "";
+    params.strCountry = $("#filter-country").val() || "";
 
     $.ajax({
         url: "Search/filterSearches",
         data: params,
         type: "GET",
         success: function (data) {
-            data = JSON.parse(data);
+            regExp = new RegExp(/\((.*?)\)/);
 
-            /*$("#movie-focused").hide();
-            $("#movie-search-results").show();
-
-            if ($.fn.DataTable.isDataTable($('#movie-search-results'))) {
-                var oTable = $('#movie-search-results').dataTable();
+            if ($.fn.DataTable.isDataTable($('#searches-filter-results-table'))) {
+                var oTable = $('#searches-filter-results-table').dataTable();
             }
             else {
-                var oTable = $('#movie-search-results').dataTable({
+                var oTable = $('#searches-filter-results-table').dataTable({
                     "autoWidth": false,
                     "columnDefs": [{
-                        "targets": [0],
-                        "visible": false
-                    }, {
-                        "targets": [1, 2],
-                        "width": "50%"
+                        "targets": [2],
+                        "mRender": function (data, type, full) {
+                            return "<a onClick=\"searchMovie('" +
+                                data + "')\">Search Again</a>";
+                        }
                     }]
                 });
             }
             oTable.fnClearTable();
-
-            // Check if there are movies
-            if (!data.Error) {
-                data = data.Search;
+            if (data.length > 0) {
                 var json = [];
                 for (i = 0; i < data.length; i++) {
-                    if (data.Type == "movie") {
-                        json.push([data[i].imdbID, data[i].Title, data[i].Year]);
-                    }
+                    json.push([(new Date(data[i].Date.match(regExp)[1] * 1)).toDateString(),
+                        data[i].SearchString, data[i].SearchString]);
                 }
-                oTable.fnAddData((json));
 
-                $('#movie-search-results tbody')
-                    .on('click', 'tr', function (event) {
-                        getMovieByID(oTable.fnGetData(this)[0]);
-                    });
+                oTable.fnAddData((json));
             }
 
-            $("#search-string").text("");
-            $("a[href='#search-results']").parent().removeClass("hidden");
-            $("a[href='#search-results']").click();
-            */
+            $('#searches-filter-results').show();
+            $("#searches-filter-searches form").hide();
         }
     });
-}
+} 
 
-// Lior
+$(function () {
+    $('#filter-country').autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: 'Country/getAllCountries',
+                type: 'GET',
+                dataType: 'json',
+                data: request,
+                success: function (data) {
+                    console.log(data);
+                    response($.map(data, function (value, key) {
+                        return {
+                            label: value.Name,
+                            value: value.Name
+                        };
+                    }));
+                }
+            });
+        },
+        minLength: 2
+    });
+});

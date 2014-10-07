@@ -47,8 +47,7 @@ function getMovieByID(ID) {
             $.ajax({
                 url: "Movie/isTheMovieOnMyList",
                 data: {
-                    "strMovieID": ID,
-                    "strUserName": "liorbentov"
+                    "strMovieID": ID
                 },
                 type: "GET",
                 success: function (data) {
@@ -77,7 +76,6 @@ function getMovieByID(ID) {
                     }
                 },
                 error: function (data) {
-                    console.log("error");
                 }
             });
 
@@ -94,8 +92,7 @@ function addMovie() {
             "strIMDBID": selectedMovie.imdbID,
             "strName": selectedMovie.Title,
             "strDirector": selectedMovie.Director,
-            "nYear": selectedMovie.Year * 1,
-            "strUserName": "liorbentov"
+            "nYear": selectedMovie.Year * 1
         },
         success: function (answer) {
             if (answer == "True") {
@@ -104,7 +101,6 @@ function addMovie() {
                 + "\")'>" + selectedMovie.Title +
                 "<button type='button' class='close' onclick='removeMovie(\"" + selectedMovie.imdbID +
                 "\");'><span aria-hidden='true'>&times;</span></button></span>");
-                debugger;
                 $("#myModal").modal('toggle');
                 $("a[href='#movies-my-movies']").click();
             }
@@ -119,8 +115,7 @@ function removeMovie(movieToRemove) {
         url: "Movie/removeMovieFromUserList",
         type: "POST",
         data: {
-            "strMovieID": movieToRemove,
-            "strUserName": "liorbentov"
+            "strMovieID": movieToRemove
         },
         success: function (answer) {
             if (answer == true) {
@@ -139,7 +134,7 @@ function showMyMovies() {
     $.ajax({
         url: "Movie/getMyMovies",
         type: "GET",
-        data: { "strUserName": "liorbentov" },
+        data: { },
         success: function (data) {
 
             for (i = 0; i < data.length; i++) {
@@ -164,7 +159,6 @@ function showTopRatedMovies() {
         url: "Movie/getTopRatedMovies",
         type: "GET",
         success: function (data) {
-            console.log(data);
             if ($.fn.DataTable.isDataTable($('#top-rated'))) {
                 var oTable = $('#top-rated').dataTable();
             }
@@ -188,11 +182,11 @@ function showTopRatedMovies() {
 
             for (i = 0; i < data.length; i++) {
                 moviesJson.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
-                moviesRateJson.push({"text": data[i].Name, "size":data[i].Stars});
+                moviesRateJson.push({"text": data[i].name, "size": data[i].Stars})
             }
 
             oTable.fnAddData((moviesJson));
-            showTopRatedMoviesGraph(moviesRateJson);
+            showTopRatedMoviesGraph(data);
         }
     });
 
@@ -204,11 +198,13 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
     var fill = d3.scale.category20();
     
     d3.layout.cloud().size([1000, 1000])
-        .words(MoviesRateJson)
+        .words(MoviesRateJson.map(function (d) {
+              return { text: d.name, size: (d.Stars + 1) * 20 /* 10 + Math.random() * 90*/ };
+          }))
         .padding(5)
         .rotate(function () { return ~~(Math.random() * 2) * 90; })
         .font("Impact")
-        .fontSize(function (d) { return (d.size + 1) * 10; })
+        .fontSize(function (d) { return d.size; })
         .on("end", draw)
         .start();
 
@@ -217,7 +213,7 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
             .attr("width", 1000)
             .attr("height", 1000)
           .append("g")
-            .attr("transform", "translate(420,350)")
+            .attr("transform", "translate(150,150)")
           .selectAll("text")
             .data(words)
           .enter().append("text")
@@ -243,6 +239,7 @@ $(document).ready(function () {
 
     $("a[href='#movies-top-rated']").on('click', function () {
         showTopRatedMovies();
+        showTopRatedMoviesGraph();
     });
 
     // Handle the stars rating
@@ -256,7 +253,6 @@ $(document).ready(function () {
                     nStars: $(this)[0].value
                 },
                 success: function (data) {
-                    console.log(data);
                 }
             });
         });

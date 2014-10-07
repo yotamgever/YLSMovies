@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <title>@ViewBag.Title - YLSMovies Movie Theater</title>
         <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/css", "~/Content/themes/base/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
@@ -17,7 +17,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Movies<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    @if (!User.Identity.Name.Equals("")) {
+                                    @if (User.Identity.IsAuthenticated) {
                                     <li><a href="#movies-my-movies" role="tab" data-toggle="tab">My Movies</a></li>
                                     <li class="divider"></li>
                                     }
@@ -27,7 +27,9 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Searches<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
+                                    @if (User.Identity.IsAuthenticated) {
                                     <li><a href="#searches" role="tab" data-toggle="tab">My Searches</a></li>
+                                    }
                                     <li><a href="#searches-advance-search" role="tab" data-toggle="tab">Advance Search</a></li>
                                     <li class="divider"></li>
                                     <li><a href="#searches-all-searches" role="tab" data-toggle="tab">All Searches</a></li>
@@ -35,6 +37,14 @@
                                     <li><a href="#searches-filter-searches" role="tab" data-toggle="tab">Filter Searches</a></li>
                                 </ul>
                             </li>
+                            <!-- Shirit start -->
+                            @{
+                                if (User.Identity.IsAuthenticated && ViewBag.isAdmin)
+                                {
+                                    <li><a href="#admin" data-toggle="tab">Administration Panel</a></li>
+                                }
+                            }
+                            <!-- Shirit end -->
                             <li class="hidden"><a href="#search-results" role="tab" data-toggle="tab">Search Results</a></li>
                         </ul>
                         <form class="navbar-form navbar-left" role="search" onsubmit="return false">
@@ -64,8 +74,15 @@
                     @Html.Partial("../Movie/Movie")
                     @Html.Partial("../Search/Search")
                     @Html.Partial("../Search/SearchResults")
-                    @Html.Partial("../Account/Login")
-                    @Html.Partial("../Account/Register")
+                    <div id="log-in" class="tab-pane">
+                        @Html.Partial("../Account/Login")
+                    </div>
+                    <div id="register" class="tab-pane">
+                        @Html.Partial("../Account/Register")
+                    </div>
+                    <div id="admin" class="tab-pane">
+                        
+                    </div>
                     <div id="map-canvas" class="tab-pane">
 
                     </div>
@@ -122,7 +139,7 @@
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
-            @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap")
+            @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/jqueryui")
             @Scripts.Render("~/bundles/movie-theater")
             @RenderSection("scripts", required: false)
 
