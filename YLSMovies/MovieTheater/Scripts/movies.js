@@ -55,7 +55,6 @@ function getMovieByID(ID) {
                     }
                 },
                 error: function (data) {
-                    console.log("error");
                 }
             });
 
@@ -82,7 +81,6 @@ function addMovie() {
                 + "\")'>" + selectedMovie.Title +
                 "<button type='button' class='close' onclick='removeMovie(\"" + selectedMovie.imdbID +
                 "\");'><span aria-hidden='true'>&times;</span></button></span>");
-                debugger;
                 $("#myModal").modal('toggle');
                 $("a[href='#movies-my-movies']").click();
             }
@@ -142,7 +140,6 @@ function showTopRatedMovies() {
         url: "Movie/getTopRatedMovies",
         type: "GET",
         success: function (data) {
-            console.log(data);
             if ($.fn.DataTable.isDataTable($('#top-rated'))) {
                 var oTable = $('#top-rated').dataTable();
             }
@@ -234,7 +231,6 @@ $(document).ready(function () {
                     nStars: $(this)[0].value
                 },
                 success: function (data) {
-                    console.log(data);
                 }
             });
         });

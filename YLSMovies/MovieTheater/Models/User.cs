@@ -88,5 +88,15 @@ namespace MovieTheater.Models
                                 select countries;
             return (countriesList);
         }
+
+        public Country getCountryByName(String strCountryName)
+        {
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            var code = from countries in context.Countries
+                       where countries.Name.Equals(strCountryName)
+                       select countries;
+
+            return (code.FirstOrDefault());
+        }
     }
 }

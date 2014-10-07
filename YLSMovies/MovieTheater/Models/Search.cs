@@ -145,17 +145,28 @@ namespace MovieTheater.Models
             return union;
         }
 
-        public IQueryable<Search> filterSearches(String strSearchString, DateTime dtFrom, DateTime dtTo, String strCountry)
+        public IQueryable<object> filterSearches(String strSearchString, DateTime dtFrom, DateTime dtTo, String strCountry)
         {
             TheaterContext context = new TheaterContext();
+            Country cTemp = new Country().getCountryByName(strCountry);
             var results = from searches in context.Searches
                           join users in context.Users
                           on searches.UserName equals users.UserName
-                          where (strSearchString.Equals("") || searches.SearchString.Contains(strSearchString)) &&
-                          (dtFrom.Equals(DateTime.MinValue) || searches.Date.CompareTo(dtFrom) > -1) && 
-                          (dtTo.Equals(DateTime.MinValue) || searches.Date.CompareTo(dtTo) < 1) && 
-                          (strCountry.Equals("") || users.Country.Equals(strCountry))
-                          select searches;
+                          where (strSearchString.Equals("") || searches.SearchString.ToUpper().Contains(strSearchString.ToUpper())) &&
+                          (DateTime.Equals(DateTime.MinValue, dtFrom) || searches.Date >= dtFrom) &&
+                          (DateTime.Equals(DateTime.MinValue, dtTo) || searches.Date <= dtTo)
+                          select new
+                          {
+                              searches.SearchID,
+                              searches.SearchString,
+                              searches.Date,
+                              users.Country
+                          };
+            if (cTemp != null)
+            {
+                results = results.Where(r => r.Country.CountryID == cTemp.CountryID);
+            }
+
             return results;
         }
 
