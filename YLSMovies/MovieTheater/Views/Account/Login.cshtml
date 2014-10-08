@@ -3,43 +3,49 @@
 @{
     ViewBag.Title = "Log in";
 }
-<form action="Account/Login" method="post">
-    <div id="log-in" class="tab-pane">
-        <section id="loginForm">
-            <h2>Use a local account to log in.</h2>
-            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
 
-                <fieldset>
-                    <legend>Log in Form</legend>
-                    <ol>
-                        <li>
-                            @Html.LabelFor(m => m.UserName)
-                            @Html.TextBoxFor(m => m.UserName)
+<div id="log-in" class="tab-pane">
+    <form class="form-horizontal" role="form" >
+        <h2>Log in</h2>
+        @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                        @Html.LabelFor(m => m.UserName, htmlAttributes: new { @class="col-sm-2 control-label" })
+                        <div class="col-sm-2">
+                            @Html.TextBoxFor(m => m.UserName, htmlAttributes : new { @class="form-control", @placeholder="username" })
                             @Html.ValidationMessageFor(m => m.UserName)
-                        </li>
-                        <li>
-                            @Html.LabelFor(m => m.Password)
-                            @Html.PasswordFor(m => m.Password)
+                        </div>
+                </div>
+                <div class="form-group">
+                        @Html.LabelFor(m => m.Password, htmlAttributes: new { @class="col-sm-2 control-label" })
+                        <div class="col-sm-2">
+                            @Html.PasswordFor(m => m.Password, htmlAttributes : new { @class="form-control", @placeholder="username" })
                             @Html.ValidationMessageFor(m => m.Password)
-                        </li>
-                        <li>
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-                        </li>
-                    </ol>
-                    <input type="submit" value="Log in" />
-                </fieldset>
-                <p>
-                    @Html.ActionLink("Register", "Register") if you don't have an account.
-                </p>
-            }
-        </section>
-
-    </div>
-</form>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.RememberMe) Remember Me?
+                            </label>
+                        </div>
+                    </div>
+                </div>    
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" onclick="">Log in</button>
+                    </div>
+                </div>
+            <p>
+                @Html.ActionLink("Register", "Register") if you don't have an account.
+            </p>
+        }
+    </form>
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
