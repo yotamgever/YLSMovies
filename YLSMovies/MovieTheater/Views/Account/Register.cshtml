@@ -1,20 +1,24 @@
 ﻿<div id="register" class="tab-pane">
     <h2>Register</h2>
-    <form class="form-horizontal" role="form" onsubmit="return false;">
+    <form class="form-horizontal" role="form" onsubmit="return false;" autocomplete="off">
         <div class="form-group">
             <label for="register-firstname" class="col-sm-2 control-label">Firstname</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="register-firstname" placeholder="Firstname">
+                <input type="text" class="form-control" id="register-firstname" placeholder="Firstname" 
+                    required pattern="[A-Za-z]+" aria-describedby="name-format">
+                <span id="name-format" class="help">Only English letters</span>
             </div>
         </div>
         <div class="form-group">
             <label for="register-lastname" class="col-sm-2 control-label">Lastname</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="register-lastname" placeholder="Lastname">
+                <input type="text" class="form-control" id="register-lastname" placeholder="Lastname" 
+                    required pattern="[A-Za-z]+" aria-describedby="name-format">
+                <span id="name-format" class="help">Only English letters</span>
             </div>
         </div>
         <div class="form-group">
-            <label for="register-birthdate" class="col-sm-2 control-label">BirthDate</label>
+            <label for="register-birthdate" class="col-sm-2 control-label">Birthdate</label>
             <div class="col-sm-2">
                 <input type="date" class="form-control" id="register-birthdate">
             </div>
@@ -22,25 +26,25 @@
         <div class="form-group">
             <label for="filter-country" class="col-sm-2 control-label">Country</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="filter-country" placeholder="Country">
+                <input type="text" class="form-control" id="register-country" placeholder="Country">
             </div>
         </div>
         <div class="form-group">
             <label for="register-username" class="col-sm-2 control-label">Username</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="register-username" placeholder="Username">
+                <input type="text" class="form-control" id="register-username" placeholder="Username" required pattern="\w+">
             </div>
         </div>
         <div class="form-group">
             <label for="register-password" class="col-sm-2 control-label">Password</label>
             <div class="col-sm-2">
-                <input type="password" class="form-control" id="register-password">
+                <input type="password" class="form-control" id="register-password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" onchange="$('#register-confirm-password').attr('pattern',this.value);">
             </div>
         </div>
         <div class="form-group">
             <label for="register-confirm-password" class="col-sm-2 control-label">Confirm Password</label>
             <div class="col-sm-2">
-                <input type="password" class="form-control" id="register-confirm-password">
+                <input type="password" class="form-control" id="register-confirm-password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
             </div>
         </div>    
         <div class="form-group">
@@ -50,26 +54,3 @@
         </div>
     </form>
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-<script>
-    function register() {
-        debugger;
-        $.ajax({
-            url: "Account/Register",
-            type: "POST",
-            data: {
-                strFirstName: $("#register-firstname").val(),
-                strLastName: $("#register-lastname").val(),
-                strBirthDate: $("#register-birthdate").val(),
-                strCountry: $("#register-country").val(),
-                strUserName: $("#register-username").val(),
-                strPassword: $("#register-password").val()
-            },
-            success: function (data) {
-                console.log("success");
-            }
-        });
-    }
-</script>

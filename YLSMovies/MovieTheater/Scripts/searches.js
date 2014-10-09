@@ -384,7 +384,6 @@ $(function () {
                 dataType: 'json',
                 data: request,
                 success: function (data) {
-                    console.log(data);
                     response($.map(data, function (value, key) {
                         return {
                             label: value.Name,
