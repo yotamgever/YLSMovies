@@ -227,6 +227,9 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
 }
 
 $(document).ready(function () {
+
+    $("#login-message").hide();
+
     // When the user clicks on any option other than Search-Results, the tab disappears
     $("a[role='tab']").each(function () {
         if ($(this).text() != 'Search Results')

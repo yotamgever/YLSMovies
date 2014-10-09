@@ -20,60 +20,29 @@ namespace MovieTheater.Controllers
         // Shirit
         User u = new User();
 
-        //
-        // GET: /Account/Login
-
-        /*[AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }*/
-
-        //
-        // POST: /Account/Login
-
-        /*[HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
-        {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
-            {
-                return RedirectToLocal(returnUrl);
-            }
-
-            // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            return View(model);
-        }*/
-
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Login(String strUserName, String strPassword, Boolean bRememberMe)
+        [ValidateAntiForgeryToken]
+        public String Login(String strUserName, String strPassword, Boolean bRememberMe)
         {
             if (ModelState.IsValid && WebSecurity.Login(strUserName, strPassword, persistCookie: bRememberMe))
             {
-                return null;//RedirectToLocal(returnUrl);
+                return String.Empty;
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            return null;
+            return "The user name or password provided is incorrect.";
         }
 
         //
         // POST: /Account/LogOff
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public bool LogOff()
         {
-            //WebSecurity.Logout();
-
-            //return RedirectToAction("Index", "Home");
-            return false;
+            WebSecurity.Logout();
+            return true;
         }
 
         //
