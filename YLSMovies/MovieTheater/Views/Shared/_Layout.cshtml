@@ -39,7 +39,7 @@
                             </li>
                             <!-- Shirit start -->
                             @{
-                                if (User.Identity.IsAuthenticated && ViewBag.isAdmin)
+                                if (User.Identity.IsAuthenticated)
                                 {
                                     <li><a href="#admin" data-toggle="tab">Administration Panel</a></li>
                                 }
@@ -74,9 +74,7 @@
                     @Html.Partial("../Movie/Movie")
                     @Html.Partial("../Search/Search")
                     @Html.Partial("../Search/SearchResults")
-                    <div id="log-in" class="tab-pane">
-                        @Html.Partial("../Account/Login")
-                    </div>
+                    @Html.Partial("../Account/Login")
                     <div id="register" class="tab-pane">
                         @Html.Partial("../Account/Register")
                     </div>
