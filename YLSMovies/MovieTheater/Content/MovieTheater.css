@@ -103,7 +103,7 @@ aside.sidebar {
     display: none;
 }
 
-.video {
+.article-video {
     overflow: overlay; 
     position: relative; 
     z-index:100000000
