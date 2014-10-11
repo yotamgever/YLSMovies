@@ -49,6 +49,23 @@ namespace MovieTheater.Models
             return (answer);
         }
 
+        public Boolean updateAdmin(String strUserName, Boolean isManager)
+        {
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            Boolean answer = false;
+            //TheaterContext context = new TheaterContext();
+            User specificUser = context.Users.SingleOrDefault(u => u.UserName == strUserName);
+
+            if (specificUser != null)
+            {
+                specificUser.Admin = isManager;
+                context.SaveChanges();
+                answer = true;
+            }
+
+            return (answer);
+        }
+
         // Shirit
         public Boolean addUser()
         {
@@ -71,6 +88,40 @@ namespace MovieTheater.Models
                 return false;
             }
         }
+
+        public Boolean deleteUser(String strUserName)
+        {
+            Boolean answer = false;
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+            User u = context.Users.SingleOrDefault(s => s.UserName == strUserName);
+            if (u != null)
+            {
+                context.Users.Remove(u);
+                answer = context.SaveChanges() > 0;
+            }
+
+            return (answer);
+        }
+
+        public IQueryable<object> searchUser(String strUserName, String strFirstName, String strLastName)
+        {
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+
+            var search = from users in context.Users
+                         where ((strUserName.Equals("") || users.UserName.ToUpper().Contains(strUserName.ToUpper())) &&
+                                (strFirstName.Equals("") || users.FirstName.ToUpper().Contains(strFirstName.ToUpper())) &&
+                                (strLastName.Equals("") || users.LastName.ToUpper().Contains(strLastName.ToUpper())))
+                         select new 
+                         {
+                             userName = users.UserName,
+                             firstName = users.FirstName,
+                             lastName = users.LastName,
+                             admin = users.Admin,
+                         };
+
+            return (search);
+        }
+
     }
 
     public class Country
@@ -97,6 +148,11 @@ namespace MovieTheater.Models
                        select countries;
 
             return (code.FirstOrDefault());
+        }
+
+        public static Country getCountryByID(Int32 nCountryID)
+        {
+            return ((new DAL.TheaterContext()).Countries.Find(nCountryID));
         }
     }
 }

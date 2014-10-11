@@ -33,19 +33,20 @@ namespace MovieTheater.Controllers
         //
         // POST: /Account/Login
 
+        // Shirit
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public ActionResult Login(String UserName, String Password, Boolean RememberMe, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            if (ModelState.IsValid && WebSecurity.Login(UserName, Password, persistCookie: RememberMe))
             {
                 return RedirectToLocal(returnUrl);
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            return View(model);
+            @ViewBag.errorMessage = "The user name or password provided is incorrect.";
+            return View();
         }
 
         //
@@ -63,9 +64,25 @@ namespace MovieTheater.Controllers
         //
         // GET: /Account/Register
 
+        // Shirit
         [AllowAnonymous]
         public ActionResult Register()
         {
+            IQueryable<Country> Countries = (new Country()).getCountries();
+            //Country curr;
+
+            String allCountries = "";
+
+            foreach (Country curr in Countries)
+            {
+                allCountries += "<option value='" + curr.CountryID + "'>" + curr.Name + "</option>";
+            }
+
+            //allCountries += "</select>";
+
+            @ViewBag.Countries = allCountries;
+
+            //return (Json(allCountries, JsonRequestBehavior.AllowGet));
             return View();
         }
 
@@ -75,32 +92,43 @@ namespace MovieTheater.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(String UserName, String FirstName, String LastName,
+                                     DateTime Birthday, Int32 nCountry, String Password, String ConfirmPassword)
         {
-            if (ModelState.IsValid)
+            String errorMessage =
+                (new RegisterModel()).isValidate(UserName, FirstName, LastName, Birthday, Password, ConfirmPassword);
+            if (errorMessage != null)
+            {
+                @ViewBag.errorMessage = errorMessage;
+            }
+            else
             {
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(UserName, Password);
                     // Shirit
-                    u.UserName = model.UserName;
-                    u.FirstName = model.FirstName;
-                    u.LastName = model.LastName;
+                    u.UserName = UserName;
+                    u.FirstName = FirstName;
+                    u.LastName = LastName;
                     u.Admin = false;
-                    u.BirthDate = DateTime.Now;
+                    u.BirthDate = Birthday;
+                    Country temp = new Country();
+                    temp.CountryID = nCountry;
+                    //u.Country = temp;
+                    u.Country = Country.getCountryByID(nCountry);
                     u.addUser();
-                    WebSecurity.Login(model.UserName, model.Password);
+                    WebSecurity.Login(UserName, Password);
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
                 {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+                    @ViewBag.errorMessage = ErrorCodeToString(e.StatusCode);
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View();
         }
 
         //
@@ -301,9 +329,28 @@ namespace MovieTheater.Controllers
         }
 
         // Shirit
-        public Boolean addAdmin(String strUserName)
+        public Boolean updateAdmin(String strUserName, Boolean isManager)
         {
-            return (u.addAdmin(strUserName));
+            return (u.updateAdmin(strUserName, isManager));
+        }
+
+        // Shirit
+        public Boolean removeUser(String strUserName)
+        {
+            bool answer = false;
+
+            if (Membership.DeleteUser(strUserName))
+            {
+                answer = u.deleteUser(strUserName);
+            }
+
+            return (answer);
+        }
+
+        // Shirit
+        public JsonResult adminPanel(String strUserName, String strFirstName, String strLastName)
+        {
+            return (Json(u.searchUser(strUserName, strFirstName, strLastName), JsonRequestBehavior.AllowGet));
         }
 
         //

@@ -108,6 +108,35 @@ namespace MovieTheater.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public String isValidate(String UserName, String FirstName, String LastName,
+                                        DateTime Birthday, String Password, String ConfirmPassword)
+        {
+            String errorMessage = null;
+
+            if (UserName == null)
+            {
+                errorMessage = "User Name can not be empty.";
+            }
+            if (FirstName == null)
+            {
+                errorMessage = "First Name can not be empty.";
+            }
+            if (LastName == null)
+            {
+                errorMessage = "Last Name can not be empty.";
+            }
+            if (Password == null)
+            {
+                errorMessage = "Password can not be empty.";
+            }
+            if (Password != ConfirmPassword)
+            {
+                errorMessage = "Password and Confirm Password does not match.";
+            }
+
+            return (errorMessage);
+        }
     }
 
     public class ExternalLogin
