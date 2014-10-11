@@ -1,11 +1,24 @@
 ﻿@if (Request.IsAuthenticated) {
-    <li>Hello, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+    <li>
+        <p class="navbar-text">Hello, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
             @Html.AntiForgeryToken()
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-        }
+            <a onclick="logoff()">Log Off</a>
+        </p>
     </li>
 } else {
         <li><a href="#register" role="tab" data-toggle="tab">Register</a></li>
         <li><a href="#log-in" role="tab" data-toggle="tab">Log In</a></li>
 }
+
+<script>
+    function logoff() {
+        $.ajax({
+            url: "Account/LogOff",
+            type: "POST",
+            data : {'__RequestVerificationToken': $("input[name='__RequestVerificationToken']").val() },
+            success: function (data) {
+                location.reload();
+            }
+        });
+    }
+</script>
