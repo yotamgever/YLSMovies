@@ -46,7 +46,9 @@ function getAdminPanel() {
 // Shirit
 $("a[href='#admin']")
     .on('click', function (event) {
+
         getAdminPanel();
+    });
 
 
 $('#register-country').autocomplete({
@@ -70,7 +72,6 @@ $('#register-country').autocomplete({
 });
 
 function register() {
-    debugger;
     $.ajax({
         url: "Account/Register",
         type: "POST",
@@ -83,7 +84,8 @@ function register() {
             strPassword: $("#register-password").val()
         },
         success: function (data) {
-            console.log("success");
+            alert("Registration Success!");
+            setTimeout(function () { location.reload(); }, 1000);
         }
     });
 }
