@@ -302,7 +302,6 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\movies.js" />
-    <Content Include="Scripts\noName.js" />
     <Content Include="Scripts\searches.js" />
     <Content Include="Scripts\user.js" />
     <Content Include="Scripts\utilities.js" />
