@@ -74,9 +74,7 @@
                     @Html.Partial("../Movie/Movie")
                     @Html.Partial("../Search/Search")
                     @Html.Partial("../Search/SearchResults")
-                    <div id="log-in" class="tab-pane">
-                        @Html.Partial("../Account/Login")
-                    </div>
+                    @Html.Partial("../Account/Login")
                     <div id="register" class="tab-pane">
                         @Html.Partial("../Account/Register")
                     </div>
@@ -91,8 +89,6 @@
                     @RenderBody()
                 </section>
             </div>
-
-       
 
             <div class="modal" id="myModal" aria-hidden=true tabindex="-1" role="dialog" style="display:none">
                 <div class="modal-dialog">
@@ -142,7 +138,5 @@
             @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/jqueryui")
             @Scripts.Render("~/bundles/movie-theater")
             @RenderSection("scripts", required: false)
-
-       
 </body>
 </html>
