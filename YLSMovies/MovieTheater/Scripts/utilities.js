@@ -68,6 +68,7 @@ function initStageObjects() {
     //var green = "#02A817";
     var purple = "#6E37FA";
     var cyan = "#37E6FA";
+    var orange = "#E07751";
   
     // Y
     ballsArr.push(new Ball(102, 52,0 ,0 , blue));
@@ -141,6 +142,39 @@ function initStageObjects() {
     ballsArr.push(new Ball(349, 58, 0, 0, cyan));
     ballsArr.push(new Ball(356, 66, 0, 0, cyan));
     ballsArr.push(new Ball(358, 72, 0, 0, cyan));
+
+    // C
+    ballsArr.push(new Ball(386, 116, 0, 0, orange));
+    ballsArr.push(new Ball(388, 122, 0, 0, orange));
+    ballsArr.push(new Ball(395, 130, 0, 0, orange));
+    ballsArr.push(new Ball(402, 132, 0, 0, orange));
+    ballsArr.push(new Ball(402, 134, 0, 0, orange));
+    ballsArr.push(new Ball(410, 136, 0, 0, orange));
+    ballsArr.push(new Ball(416, 136, 0, 0, orange));
+    ballsArr.push(new Ball(422, 136, 0, 0, orange));
+    ballsArr.push(new Ball(430, 134, 0, 0, orange));
+    ballsArr.push(new Ball(430, 132, 0, 0, orange));
+    ballsArr.push(new Ball(437, 130, 0, 0, orange));
+    ballsArr.push(new Ball(444, 122, 0, 0, orange));
+    ballsArr.push(new Ball(446, 116, 0, 0, orange));
+    ballsArr.push(new Ball(386, 112, 0, 0, orange));
+    ballsArr.push(new Ball(386, 104, 0, 0, orange));
+    ballsArr.push(new Ball(386, 96, 0, 0, orange));
+    ballsArr.push(new Ball(386, 88, 0, 0, orange));
+    ballsArr.push(new Ball(386, 80, 0, 0, orange));
+    ballsArr.push(new Ball(386, 72, 0, 0, orange));
+    ballsArr.push(new Ball(388, 66, 0, 0, orange));
+    ballsArr.push(new Ball(395, 58, 0, 0, orange));
+    ballsArr.push(new Ball(402, 56, 0, 0, orange));
+    ballsArr.push(new Ball(402, 54, 0, 0, orange));
+    ballsArr.push(new Ball(410, 52, 0, 0, orange));
+    ballsArr.push(new Ball(416, 52, 0, 0, orange));
+    ballsArr.push(new Ball(422, 52, 0, 0, orange));
+    ballsArr.push(new Ball(430, 54, 0, 0, orange));
+    ballsArr.push(new Ball(430, 56, 0, 0, orange));
+    ballsArr.push(new Ball(437, 58, 0, 0, orange));
+    ballsArr.push(new Ball(444, 66, 0, 0, orange));
+    ballsArr.push(new Ball(446, 72, 0, 0, orange));
 }
   
 // Drawing the balls
