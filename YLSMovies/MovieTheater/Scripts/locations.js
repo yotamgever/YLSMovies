@@ -1,4 +1,4 @@
-﻿// First, create an object containing LatLng and population for each city.
+﻿// First, create an object containing LatLng and population for each country.
 var countrymap = {};
 $.ajax({
     url: "Country/getAllCountries",
@@ -10,7 +10,6 @@ $.ajax({
                 population: data[i].CountryID * 1000
             };
         }
-        debugger;
         initialize();
     }
 });
@@ -18,12 +17,11 @@ $.ajax({
 
 var countryCircle;
 function initialize() {
-    debugger;
     var mapOptions = {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 2
+        center: { lat: 34.75, lng: 31.5 },
+        zoom: 4
     };
-    var map = new google.maps.Map(document.getElementById('map-canvas'),
+    var map = new google.maps.Map(document.getElementById('theaters-map'),
         mapOptions);
 
     // Construct the circle for each value in citymap.

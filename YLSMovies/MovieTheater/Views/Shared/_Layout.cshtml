@@ -39,7 +39,7 @@
                             </li>
                             <!-- Shirit start -->
                             @{
-                                if (User.Identity.IsAuthenticated && ViewBag.isAdmin)
+                                if (User.Identity.IsAuthenticated)
                                 {
                                     <li><a href="#admin" data-toggle="tab">Administration Panel</a></li>
                                 }

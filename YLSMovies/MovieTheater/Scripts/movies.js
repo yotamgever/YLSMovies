@@ -1,22 +1,4 @@
-﻿/*$.ajax({
-    url: "http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?v=2&alt=json",
-    type: "get",
-    success: function (data) {
-        var feed = data.feed;
-        var entries = feed.entry || [];
-        var html = ['<div id="home-page" class="container-fluid">'];
-        for (var i = 0; i < entries.length; i++) {
-            var entry = entries[i];
-            var title = entry.title.$t;
-            var id = entry.id.$t.substring(entry.id.$t.lastIndexOf(":") + 1)
-            html.push('<div class="col-md-4"><embed width="280" height="200" src="http://www.youtube.com/v/' + id + '"><p>' + title + '</p></div>');
-        }
-        html.push("</div>");
-        $("#home-page").html(html);
-    }
-})*/
-
-/*
+﻿/*
 This function displays the details of the specific movie
  it opens a new modal to do so.
 */
@@ -120,6 +102,8 @@ function removeMovie(movieToRemove) {
         success: function (answer) {
             if (answer == true) {
                 $("#my-movies span[id='" + movieToRemove + "']").remove();
+                alert("Movie has been removed from your list");
+                $("#myModal").modal('toggle');
             }
         }
     });
@@ -227,6 +211,9 @@ function showTopRatedMoviesGraph(MoviesRateJson) {
 }
 
 $(document).ready(function () {
+
+    $("#login-message").hide();
+
     // When the user clicks on any option other than Search-Results, the tab disappears
     $("a[role='tab']").each(function () {
         if ($(this).text() != 'Search Results')
@@ -250,6 +237,7 @@ $(document).ready(function () {
                     nStars: $(this)[0].value
                 },
                 success: function (data) {
+                    alert("Thank you for rating!");
                 }
             });
         });

@@ -1,46 +1,66 @@
-﻿@model MovieTheater.Models.LoginModel
-
-@{
-    ViewBag.Title = "Log in";
-}
-<div id="log-in" class="tab-pane">
-    <form action="Account/Login" method="post" class="form-horizontal" role="form">
-        <h2>Log in</h2>
+﻿<div id="log-in" class="tab-pane">
+    <form class="form-horizontal" role="form" onsubmit="return false;">
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        @ViewBag.errorMessage
-        <div class="form-group">
-            <label for="login-username" class="col-sm-2 control-label">Username</label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control" id="login-username" placeholder="Username" name="UserName">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="login-password" class="col-sm-2 control-label">Password</label>
-            <div class="col-sm-3">
-                <input type="password" class="form-control" id="login-password" name="Password">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="RememberMe" id="RememberMe" value="true" class="col-sm-offset-2"> Remember Me
-                        <input type="hidden" value="false" name="RememberMe">
-                    </label>
+        <h2>Log in</h2>
+                <div class="form-group">
+                    <label for="login-username" class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="login-username" placeholder="Username">
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" onclick="filterSearches()">Log in</button>
-            </div>
-        </div>
-        <p>
-            <li><a href="#register" role="tab" data-toggle="tab">Register</a></li> if you don't have an account.
-        </p>
+                <div class="form-group">
+                        <label for="login-password" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-2">
+                            <input type="password" class="form-control" id="login-password">
+                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="login-remember"> Remember Me?
+                            </label>
+                        </div>
+                    </div>
+                </div>    
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-1">
+                        <button type="submit" class="btn btn-default" onclick="login()">Log in</button>
+                    </div>
+                    <span id="login-message" class="alert alert-danger">
+
+                    </span>
+                </div>
+            <p>
+                @Html.ActionLink("Register", "Register") if you don't have an account.
+            </p>
     </form>
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+<script>
+
+    function login() {
+        $.ajax({
+            url: "Account/Login",
+            type: "POST",
+            data: {
+                '__RequestVerificationToken': $("input[name='__RequestVerificationToken']").val(),
+                strUserName: $("#login-username").val(),
+                strPassword: $("#login-password").val(),
+                bRememberMe: ($("#login-remember:checked").length == 1 ? true : false)
+            },
+            success: function (data) {
+                if (data == "") {
+                    location.reload();
+                    $("a[href='#movies-my-movies']").click();
+                }
+                else {
+                    $("#login-message")
+                        .text(data)
+                        .show();
+
+                }
+            }
+        });
+    }
+</script>

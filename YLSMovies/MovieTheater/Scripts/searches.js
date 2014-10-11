@@ -55,7 +55,6 @@ function advanceSearchMovie(params) {
         params = {};
         params.strName = $("#movie-name").val() || "";
         params.nYear = $("#movie-year").val() || 0;
-        params.strUserName = "liorbentov";
     }
 
     $.ajax({
@@ -64,7 +63,7 @@ function advanceSearchMovie(params) {
         type: "GET",
         success: function (data) {
             data = JSON.parse(data);
-
+            debugger;
             $("#movie-focused").hide();
             $("#movie-search-results").show();
 
@@ -90,7 +89,7 @@ function advanceSearchMovie(params) {
                 data = data.Search;
                 var json = [];
                 for (i = 0; i < data.length; i++) {
-                    if (data.Type == "movie") {
+                    if (data[i].Type == "movie") {
                         json.push([data[i].imdbID, data[i].Title, data[i].Year]);
                     }
                 }
@@ -160,14 +159,15 @@ function getUserSearches() {
             }
             oTable.fnClearTable();
 
-            var json = [];
-            for (i = 0; i < data.length; i++) {
-                json.push([(new Date(data[i].Date.match(regExp)[1] * 1)).toDateString(),
-                    data[i].SearchString, data[i].SearchString]);
+            if (data.length > 0) {
+                var json = [];
+                for (i = 0; i < data.length; i++) {
+                    json.push([(new Date(data[i].Date.match(regExp)[1] * 1)).toDateString(),
+                        data[i].SearchString, data[i].SearchString]);
+                }
+
+                oTable.fnAddData((json));
             }
-
-            oTable.fnAddData((json));
-
         }
     });
 }
@@ -384,7 +384,6 @@ $(function () {
                 dataType: 'json',
                 data: request,
                 success: function (data) {
-                    console.log(data);
                     response($.map(data, function (value, key) {
                         return {
                             label: value.Name,

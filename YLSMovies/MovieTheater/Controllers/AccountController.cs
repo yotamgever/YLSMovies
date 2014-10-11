@@ -20,33 +20,18 @@ namespace MovieTheater.Controllers
         // Shirit
         User u = new User();
 
-        //
-        // GET: /Account/Login
-
-        [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
-
-        //
-        // POST: /Account/Login
-
-        // Shirit
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(String UserName, String Password, Boolean RememberMe, string returnUrl)
+        public String Login(String strUserName, String strPassword, Boolean bRememberMe)
         {
-            if (ModelState.IsValid && WebSecurity.Login(UserName, Password, persistCookie: RememberMe))
+            if (ModelState.IsValid && WebSecurity.Login(strUserName, strPassword, persistCookie: bRememberMe))
             {
-                return RedirectToLocal(returnUrl);
+                return String.Empty;
             }
 
             // If we got this far, something failed, redisplay form
-            @ViewBag.errorMessage = "The user name or password provided is incorrect.";
-            return View();
+            return "The user name or password provided is incorrect.";
         }
 
         //
@@ -54,36 +39,10 @@ namespace MovieTheater.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        public bool LogOff()
         {
             WebSecurity.Logout();
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        //
-        // GET: /Account/Register
-
-        // Shirit
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            IQueryable<Country> Countries = (new Country()).getCountries();
-            //Country curr;
-
-            String allCountries = "";
-
-            foreach (Country curr in Countries)
-            {
-                allCountries += "<option value='" + curr.CountryID + "'>" + curr.Name + "</option>";
-            }
-
-            //allCountries += "</select>";
-
-            @ViewBag.Countries = allCountries;
-
-            //return (Json(allCountries, JsonRequestBehavior.AllowGet));
-            return View();
+            return true;
         }
 
         //
@@ -91,44 +50,37 @@ namespace MovieTheater.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(String UserName, String FirstName, String LastName,
-                                     DateTime Birthday, Int32 nCountry, String Password, String ConfirmPassword)
+        //[ValidateAntiForgeryToken]
+        public Boolean Register(String strFirstName, String strLastName, String strBirthDate, String strCountry, 
+            String strUserName, String strPassword)
         {
-            String errorMessage =
-                (new RegisterModel()).isValidate(UserName, FirstName, LastName, Birthday, Password, ConfirmPassword);
-            if (errorMessage != null)
-            {
-                @ViewBag.errorMessage = errorMessage;
-            }
-            else
+            if (ModelState.IsValid)
             {
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(UserName, Password);
+                    WebSecurity.CreateUserAndAccount(strUserName, strPassword);
                     // Shirit
-                    u.UserName = UserName;
-                    u.FirstName = FirstName;
-                    u.LastName = LastName;
+                    u.UserName = strUserName;
+                    u.FirstName = strFirstName;
+                    u.LastName = strLastName;
                     u.Admin = false;
-                    u.BirthDate = Birthday;
-                    Country temp = new Country();
-                    temp.CountryID = nCountry;
-                    //u.Country = temp;
-                    u.Country = Country.getCountryByID(nCountry);
+                    u.BirthDate = Convert.ToDateTime(strBirthDate);
+                    u.Country = new Country().getCountryByName(strCountry);
                     u.addUser();
-                    WebSecurity.Login(UserName, Password);
-                    return RedirectToAction("Index", "Home");
+                    WebSecurity.Login(strUserName, strPassword);
+                    //return RedirectToAction("Index", "Home");
+                    return true;
                 }
                 catch (MembershipCreateUserException e)
                 {
-                    @ViewBag.errorMessage = ErrorCodeToString(e.StatusCode);
+                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View();
+            //return View(model);
+            return false;
         }
 
         //
@@ -238,157 +190,10 @@ namespace MovieTheater.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/ExternalLogin
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-        }
-
-        //
-        // GET: /Account/ExternalLoginCallback
-
-        [AllowAnonymous]
-        public ActionResult ExternalLoginCallback(string returnUrl)
-        {
-            AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-            if (!result.IsSuccessful)
-            {
-                return RedirectToAction("ExternalLoginFailure");
-            }
-
-            if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
-            {
-                return RedirectToLocal(returnUrl);
-            }
-
-            if (User.Identity.IsAuthenticated)
-            {
-                // If the current user is logged in add the new account
-                OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
-                return RedirectToLocal(returnUrl);
-            }
-            else
-            {
-                // User is new, ask for their desired membership name
-                string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-                ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
-                ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
-            }
-        }
-
-        //
-        // POST: /Account/ExternalLoginConfirmation
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
-        {
-            string provider = null;
-            string providerUserId = null;
-
-            if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
-            {
-                return RedirectToAction("Manage");
-            }
-
-            if (ModelState.IsValid)
-            {
-                // Insert a new user into the database
-                using (UsersContext db = new UsersContext())
-                {
-                    UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
-                    // Check if user already exists
-                    if (user == null)
-                    {
-                        // Insert name into the profile table
-                        db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
-                        db.SaveChanges();
-
-                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
-
-                        return RedirectToLocal(returnUrl);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
-                    }
-                }
-            }
-
-            ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
-        }
-
         // Shirit
-        public Boolean updateAdmin(String strUserName, Boolean isManager)
+        public Boolean addAdmin(String strUserName)
         {
-            return (u.updateAdmin(strUserName, isManager));
-        }
-
-        // Shirit
-        public Boolean removeUser(String strUserName)
-        {
-            bool answer = false;
-
-            if (Membership.DeleteUser(strUserName))
-            {
-                answer = u.deleteUser(strUserName);
-            }
-
-            return (answer);
-        }
-
-        // Shirit
-        public JsonResult adminPanel(String strUserName, String strFirstName, String strLastName)
-        {
-            return (Json(u.searchUser(strUserName, strFirstName, strLastName), JsonRequestBehavior.AllowGet));
-        }
-
-        //
-        // GET: /Account/ExternalLoginFailure
-
-        [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        [ChildActionOnly]
-        public ActionResult ExternalLoginsList(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
-        }
-
-        [ChildActionOnly]
-        public ActionResult RemoveExternalLogins()
-        {
-            ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
-            List<ExternalLogin> externalLogins = new List<ExternalLogin>();
-            foreach (OAuthAccount account in accounts)
-            {
-                AuthenticationClientData clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider);
-
-                externalLogins.Add(new ExternalLogin
-                {
-                    Provider = account.Provider,
-                    ProviderDisplayName = clientData.DisplayName,
-                    ProviderUserId = account.ProviderUserId,
-                });
-            }
-
-            ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            return PartialView("_RemoveExternalLoginsPartial", externalLogins);
+            return (u.addAdmin(strUserName));
         }
 
         #region Helpers
