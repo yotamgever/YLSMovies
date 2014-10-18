@@ -90,13 +90,11 @@ namespace MovieTheater.Controllers
             return Json(m.getMovieByID(strID), JsonRequestBehavior.AllowGet);
         }
 
-        // Shirit
         public JsonResult getMyMovies()
         {
             return Json(m.getMyMovies(User.Identity.Name).ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        // Shirit
         public Boolean isTheMovieOnMyList(String strMovieID)
         {
             return (m.getMyMovies(User.Identity.Name).Where<Movie>(c => c.IMDBID == strMovieID).Count() > 0);
@@ -108,7 +106,6 @@ namespace MovieTheater.Controllers
             return (m.updateStars(strMovieID, nStars));
         }
 
-        // Shirit
         public JsonResult removeMovieFromUserList(String strMovieID)
         {
             return Json(new UserMovie().deleteUserMovie(strMovieID, User.Identity.Name), JsonRequestBehavior.AllowGet);
@@ -129,6 +126,31 @@ namespace MovieTheater.Controllers
         public JsonResult getMostWatchesMovies()
         {
             return Json(new UserMovie().getMostWatchedMovies(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpDelete]
+        public JsonResult deleteMovie(String strMovieID)
+        {
+            Boolean result = false;
+            IEnumerable<Movie> movies = new Movie().getAllMovies();
+
+            // if current user is admin, and if the movie is in the DB
+            if (!User.Identity.Name.Equals("") && MovieTheater.Models.User.isAdmin(User.Identity.Name) &&
+                movies.FirstOrDefault(m => m.IMDBID == strMovieID) != null)
+            {
+                // First - Delete the movie from UserMovies
+                UserMovie.deleteUserMovie(strMovieID);
+
+                // Then, Delete the movie
+                result = new Movie { IMDBID = strMovieID }.deleteMovie();
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getAllMovies()
+        {
+            return Json(new Movie().getAllMovies(), JsonRequestBehavior.AllowGet);
         }
     }
 }

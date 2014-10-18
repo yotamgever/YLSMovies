@@ -34,5 +34,22 @@ namespace MovieTheater.Controllers
                 (dtTo.Equals("") ? DateTime.MinValue : Convert.ToDateTime(dtTo)),
                 strCountry), JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpDelete]
+        public JsonResult deleteSearch(Int32 SearchID)
+        {
+            Boolean result = false;
+            IEnumerable<Search> searches = new Search().getAllSearches();
+
+            // if current user is admin, and if the search is in the DB
+            if (!User.Identity.Name.Equals("") && MovieTheater.Models.User.isAdmin(User.Identity.Name) &&
+                searches.FirstOrDefault(s=> s.SearchID == SearchID) != null)
+            {
+                result = new Search { SearchID = SearchID }.deleteSearch();
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

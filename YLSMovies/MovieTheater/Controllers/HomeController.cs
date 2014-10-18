@@ -14,11 +14,8 @@ namespace MovieTheater.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
             // Shirit - temp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //ViewBag.isAdmin = u.isAdmin(User.Identity.Name);
-            ViewBag.isAdmin = u.isAdmin("liorbentov");
+            ViewBag.isAdmin = MovieTheater.Models.User.isAdmin(User.Identity.Name);
 
             return View();
         }

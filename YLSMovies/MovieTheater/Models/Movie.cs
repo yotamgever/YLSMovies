@@ -72,9 +72,20 @@ namespace MovieTheater.Models
         /// </summary>
         /// <param name="movieToDelete"></param>
         /// <returns></returns>
-        public static Boolean deleteMovie(Movie movieToDelete)
+        public Boolean deleteMovie()
         {
-            return false;
+            Boolean answer = false;
+            TheaterContext context = new TheaterContext();
+            Movie specificMovie = context.Movies.SingleOrDefault(m => m.IMDBID == this.IMDBID);
+
+            if (specificMovie != null)
+            {
+                context.Movies.Remove(specificMovie);
+                context.SaveChanges();
+                answer = true;
+            }
+
+            return (answer);
         }
 
         /// <summary>
@@ -243,6 +254,20 @@ namespace MovieTheater.Models
                 answer = context.SaveChanges() > 0;
             }
 
+            return (answer);
+        }
+
+        public static Boolean deleteUserMovie(String movieToRemove)
+        {
+            Boolean answer = false;
+            TheaterContext context = new TheaterContext();
+            IEnumerable<UserMovie> um = context.UserMovies.Where(s => s.MovieID == movieToRemove);
+            foreach (UserMovie curr in um)
+            {
+                context.UserMovies.Remove(curr);
+            }
+
+            answer = context.SaveChanges() > 0;
             return (answer);
         }
 

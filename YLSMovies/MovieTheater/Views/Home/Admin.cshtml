@@ -1,29 +1,86 @@
-﻿@{
-    ViewBag.Title = "Admin";
-}
-<!--<div id="searches" class="tab-pane"> ???? -->
+﻿
 <h2>Administration Panel</h2>
 
-<p id="message"></p><br>
+<div class="row">
+    <div class="col-md-2">
+        <ul class="nav nav-pills nav-stacked"  role="tablist">
+          <li class="active"><a href="#users-filter" role="tab" data-toggle="tab">Users</a></li>
+          <li><a href="#admin-movies" role="tab" data-toggle="tab">Movies</a></li>
+          <li><a href="#admin-searches" role="tab" data-toggle="tab">Searches</a></li>
+        </ul>
+    </div>
+    <div class="col-md-10 tab-content">
+        <div id="users-filter"  class="tab-pane active">
+            <form class="form-horizontal" role="form" onsubmit="return false;" autocomplete="off">
+                <div class="form-group">
+                    <label for="users-username" class="col-sm-2 control-label">Username</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="users-username" placeholder="Usertname">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="users-firstname" class="col-sm-2 control-label">Firstname</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="users-firstname" placeholder="Firstname">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="users-lastname" class="col-sm-2 control-label">Lastname</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="users-lastname" placeholder="Lastname">
+                    </div>
+                </div>    
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" onclick="showUsers()">Search</button>
+                    </div>
+                </div>
+            </form>
 
-    User Name: <input type="text" id="UserName">
-    First Name: <input type="text" id="FirstName">
-    Last Name: <input type="text" id="LastName">
-    <input type="submit" value="search" onclick="showUsers()" />
-<br /><br />
+            <section>
+                <table id="admin-Panel">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Is Admin?</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                </table>
+            </section>
+        </div>
+        <div id="admin-movies"  class="tab-pane">
+            <table id="admin-all-movies">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Year</th>
+                        <th>Director</th>
+                        <th>Stars</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-<section>
-    <table id="admin-Panel">
-        <thead>
-            <tr>
-                <th>User Name</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Is Admin?</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-    </table>
-</section>
-<hr />
+                </tbody>
+            </table>
+        </div>
+        <div id="admin-searches" class="tab-pane">
+            <table id="admin-all-searches">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Search String</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -75,11 +75,13 @@ namespace MovieTheater.Models
         /// </summary>
         /// <param name="nSearchID">Search ID</param>
         /// <returns>True if there are searches that were deleted</returns>
-        public Boolean deleteSearch(Int32 nSearchID)
+        public Boolean deleteSearch()
         {
             TheaterContext context = new TheaterContext();
-            Search s = context.Searches.SingleOrDefault(c => c.SearchID == nSearchID);
-            context.Searches.Remove(s);
+            Search s = context.Searches.SingleOrDefault(c => c.SearchID == this.SearchID);
+            if (s != null){
+                context.Searches.Remove(s);
+            }
 
             return (context.SaveChanges() > 0);
         }

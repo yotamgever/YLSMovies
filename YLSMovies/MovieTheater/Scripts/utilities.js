@@ -65,8 +65,8 @@ function initStageObjects() {
     var blue = "#3A5BCD";
     //var red="#EF2B36";
     //var yellow = "#FFC636";
-    //var green = "#02A817";
-    var purple = "#6E37FA";
+    var purple = "#02A817";
+    //var purple = "#6E37FA";
     var cyan = "#37E6FA";
     var orange = "#E07751";
   

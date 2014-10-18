@@ -20,7 +20,7 @@ namespace MovieTheater.Models
         public Boolean Admin { get; set; }
 
         // Shirit
-        public Boolean isAdmin(String strUserName)
+        public static Boolean isAdmin(String strUserName)
         {
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
             var answer = from users in context.Users

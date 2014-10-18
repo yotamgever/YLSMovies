@@ -121,6 +121,9 @@ function showMyMovies() {
         data: { },
         success: function (data) {
 
+            if (data.length == 0) {
+                $("#my-movies").append("<h3>You have no movies on your list</h3>");
+            }
             for (i = 0; i < data.length; i++) {
                 $("#my-movies").append("<span class='col-md-2 savedMovie' id='" + data[i].IMDBID +
                     "' onclick='getMovieByID(\"" + data[i].IMDBID
@@ -244,3 +247,70 @@ $(document).ready(function () {
 
     showMyMovies();
 });
+
+function deleteMovie(movieID) {
+    $.ajax({
+        url: "Movie/deleteMovie",
+        type: "DELETE",
+        data: { "strMovieID": movieID },
+        success: function (data) {
+            console.log(data);
+        }
+    });
+}
+
+function getAdminAllMovies() {
+    $.ajax({
+        url: "Movie/getAllMovies",
+        type: "GET",
+        success: function (data) {
+
+            if ($.fn.DataTable.isDataTable($('#admin-all-movies'))) {
+                var oTable = $('#admin-all-movies').dataTable();
+            }
+            else {
+                var oTable = $('#admin-all-movies').dataTable({
+                    "autoWidth": false,
+                    "columnDefs": [{
+                        "targets": [4],
+                        "mRender": function (data, type, full) {
+                            return "<a onClick=\"deleteMovie('" +
+                                data + "')\">Delete Movie</a>";
+                        }
+                    }]
+                });
+            }
+            oTable.fnClearTable();
+
+            var json = [];
+            for (i = 0; i < data.length; i++) {
+                json.push([data[i].Name, data[i].Year, data[i].Director, data[i].Stars, data[i].IMDBID]);
+            }
+
+            oTable.fnAddData((json));
+        }
+    });
+}
+
+function deleteMovie(movieID) {
+    $.ajax({
+        url: "Movie/deleteMovie",
+        type: "DELETE",
+        data: { "strMovieID": movieID },
+        success: function (data) {
+            if (data == true) {
+                alert("Movie Deleted!");
+                getAdminAllMovies()
+            }
+            else {
+                alert("Error");
+            }
+
+        }
+    });
+}
+
+$("a[href='#admin-movies']")
+    .on('click', function (event) {
+        getAdminAllMovies();
+    });
