@@ -18,6 +18,8 @@ namespace MovieTheater.Models
         public DateTime BirthDate { get; set; }
         public virtual Country Country { get; set; }
         public Boolean Admin { get; set; }
+        [ForeignKey("Country")]
+        public Int32 CountryID { get; set; }
 
         // Shirit
         public static Boolean isAdmin(String strUserName)
