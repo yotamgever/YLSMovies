@@ -66,7 +66,7 @@ namespace MovieTheater.Controllers
                     u.LastName = strLastName;
                     u.Admin = false;
                     u.BirthDate = Convert.ToDateTime(strBirthDate);
-                    u.Country = new Country().getCountryByName(strCountry);
+                    u.Country = Country.getCountryByName(strCountry);
                     u.addUser();
                     WebSecurity.Login(strUserName, strPassword);
                     //return RedirectToAction("Index", "Home");

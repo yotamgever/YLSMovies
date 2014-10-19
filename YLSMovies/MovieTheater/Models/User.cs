@@ -144,7 +144,7 @@ namespace MovieTheater.Models
             return (countriesList);
         }
 
-        public Country getCountryByName(String strCountryName)
+        public static Country getCountryByName(String strCountryName)
         {
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
             var code = from countries in context.Countries

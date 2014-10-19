@@ -1,6 +1,6 @@
 ﻿<div id="register" class="tab-pane">
     <h2>Register</h2>
-    <form class="form-horizontal" role="form" onsubmit="return false;" autocomplete="off">
+    <form class="form-horizontal" role="form" onsubmit="event.preventDefault(); register();" autocomplete="off">
         <div class="form-group">
             <label for="register-firstname" class="col-sm-2 control-label">Firstname</label>
             <div class="col-sm-2">
@@ -49,7 +49,7 @@
         </div>    
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" onclick="register()">Register</button>
+                <button type="submit" class="btn btn-default">Register</button>
             </div>
         </div>
     </form>

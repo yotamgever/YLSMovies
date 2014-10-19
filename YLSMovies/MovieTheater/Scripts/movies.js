@@ -20,12 +20,6 @@ function getMovieByID(ID) {
             // reset the rating
             $("input:checked").attr('checked', false);
 
-            // reset the footer buttons
-            $(".modal-footer div[id='buttons']")
-                .empty()
-                .append(
-                "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>");
-
             $.ajax({
                 url: "Movie/isTheMovieOnMyList",
                 data: {
@@ -34,7 +28,7 @@ function getMovieByID(ID) {
                 type: "GET",
                 success: function (data) {
                     if (data == 'True') {
-                        $(".modal-footer div[id='buttons']").append(
+                        $("#modal-additional-buttons").append(
                             "<button type='button' class='btn btn-danger' onclick='removeMovie()'>Remove Movie From my List</button>");
                         $(".rating-wrap").show();
                         $.ajax({
@@ -52,7 +46,7 @@ function getMovieByID(ID) {
                         });
                     }
                     else {
-                        $(".modal-footer div[id='buttons']").append(
+                        $("#modal-additional-buttons").append(
                             "<button type='button' class='btn btn-primary' onclick='addMovie()'>Add Movie To List</button>");
                         $(".rating-wrap").hide();
                     }
@@ -78,6 +72,9 @@ function addMovie() {
         },
         success: function (answer) {
             if (answer == "True") {
+                if ($("#my-movies h3")) {
+                    $("#my-movies").empty();
+                }
                 $("#my-movies").append("<span class='col-md-2 savedMovie' id='" + selectedMovie.imdbID +
                     "' onclick='getMovieByID(\"" + selectedMovie.imdbID
                 + "\")'>" + selectedMovie.Title +
@@ -125,6 +122,7 @@ function showMyMovies() {
                 $("#my-movies").append("<h3>You have no movies on your list</h3>");
             }
             for (i = 0; i < data.length; i++) {
+                $("#my-movies").empty();
                 $("#my-movies").append("<span class='col-md-2 savedMovie' id='" + data[i].IMDBID +
                     "' onclick='getMovieByID(\"" + data[i].IMDBID
                     + "\")'>" + data[i].Name +

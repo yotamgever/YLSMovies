@@ -17,11 +17,6 @@ namespace MovieTheater.Controllers
             return View();
         }
 
-        public JsonResult getAllCountriesa()
-        {
-            return (Json(new Country().getCountries(), JsonRequestBehavior.AllowGet));
-        }
-
         public JsonResult getAllCountries()
         {
             var result = new Country().getCountries().ToList().Where(c => c.Name.ToUpper().Contains(Request.Params.GetValues("term")[0].ToUpper()));

@@ -227,15 +227,12 @@ function getCommonSearches() {
     });
 }
 
-
-$("a[href='#searches']")
+$("a[href='#searches-my-searches']")
     .on('click', function (event) {
         getUserSearches();
-        getAllSearches();
     });
 
-
-$("a[href='#searches-common-searches']")
+$("a[href='#searches-all-searches']")
     .on('click', function (event) {
         getAllSearches();
     });
