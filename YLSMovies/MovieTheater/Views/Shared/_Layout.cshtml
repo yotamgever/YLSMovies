@@ -37,12 +37,21 @@
                                     <li><a href="#searches-filter-searches" role="tab" data-toggle="tab">Filter Searches</a></li>
                                 </ul>
                             </li>
+                            <!-- Shirit start 101014 -->
                             @{
-                                if (User.Identity.IsAuthenticated && ViewBag.isAdmin)
+                                if (ViewBag.isAdmin == true)
                                 {
-                                    <li><a href="#admin" data-toggle="tab">Administration Panel</a></li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#admin-user" data-toggle="tab">User Management</a></li>
+                                            <li><a href="#admin-movies" data-toggle="tab">Delete Movie</a></li>
+                                            <li><a href="#admin-searches" data-toggle="tab">Delete Search</a></li>
+                                        </ul>
+                                    </li>
                                 }
                             }
+                            <!-- Shirit end -->
                             <li class="hidden"><a href="#search-results" role="tab" data-toggle="tab">Search Results</a></li>
                         </ul>
                         <form class="navbar-form navbar-left" role="search" onsubmit="return false">
@@ -76,8 +85,15 @@
                     <div id="register" class="tab-pane">
                         @Html.Partial("../Account/Register")
                     </div>
-                    <div id="admin" class="tab-pane">
-                        @Html.Partial("../Home/Admin")
+                    <!-- shirit 101014-->
+                    <div id="admin-user" class="tab-pane">
+                        @Html.Partial("../Admin/Users")
+                    </div>
+                    <div id="admin-movies" class="tab-pane">
+                        @Html.Partial("../Admin/DeleteMovie")
+                    </div>
+                    <div id="admin-searches" class="tab-pane">
+                        @Html.Partial("../Admin/DeleteSearch")
                     </div>
                 </section>
                 <section class="content-wrapper main-content clear-fix">

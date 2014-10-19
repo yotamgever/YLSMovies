@@ -31,24 +31,6 @@ namespace MovieTheater.Models
             return (answer.Count() == 1);
         }
 
-        // Shirit
-        public Boolean addAdmin(String strUserName)
-        {
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
-            Boolean answer = false;
-            //TheaterContext context = new TheaterContext();
-            User specificUser = context.Users.SingleOrDefault(u => u.UserName == strUserName);
-
-            if (specificUser != null)
-            {
-                specificUser.Admin = true;
-                context.SaveChanges();
-                answer = true;
-            }
-
-            return (answer);
-        }
-
         public Boolean updateAdmin(String strUserName, Boolean isManager)
         {
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
@@ -72,14 +54,8 @@ namespace MovieTheater.Models
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
             try
             {
-                // Check if the movie is already on the user's list
-                /*if (!isTheMovieOnMyList(movieToAdd.IMDBID, strUserName))
-                {*/
-
-                // Add the movie to the user
                 context.Users.Add(this);
                 context.SaveChanges();
-                //}
 
                 return true;
             }
@@ -89,6 +65,7 @@ namespace MovieTheater.Models
             }
         }
 
+        /* Shirit & Lior
         public Boolean deleteUser(String strUserName)
         {
             Boolean answer = false;
@@ -99,6 +76,33 @@ namespace MovieTheater.Models
                 context.Users.Remove(u);
                 answer = context.SaveChanges() > 0;
             }
+
+            return (answer);
+        }*/
+
+        // Shirit 101014
+        public Boolean deleteUser(String strUserName)
+        {
+            Boolean answer = false;
+            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+
+            var currUserMovies = from userMovies in context.UserMovies
+                                 where userMovies.UserID == strUserName
+                                 select userMovies;
+
+            foreach (var currMovie in currUserMovies)
+            {
+                context.UserMovies.Remove(currMovie);
+            }
+
+            User u = context.Users.SingleOrDefault(s => s.UserName == strUserName);
+            if (u != null)
+            {
+                context.Users.Remove(u);
+            }
+
+            answer = context.SaveChanges() > 0;
+
 
             return (answer);
         }

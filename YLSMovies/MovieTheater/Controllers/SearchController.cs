@@ -35,7 +35,7 @@ namespace MovieTheater.Controllers
                 strCountry), JsonRequestBehavior.AllowGet);
         }
 
-
+        /* Shirit & Lior
         [HttpDelete]
         public JsonResult deleteSearch(Int32 SearchID)
         {
@@ -50,6 +50,12 @@ namespace MovieTheater.Controllers
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }*/
+
+        // Shirit 101014
+        public Boolean removeSearch(Int32 nSearech)
+        {
+            return (new Search().deleteSearch(nSearech));
         }
     }
 }

@@ -106,10 +106,11 @@ namespace MovieTheater.Controllers
             return (m.updateStars(strMovieID, nStars));
         }
 
+        /*
         public JsonResult removeMovieFromUserList(String strMovieID)
         {
             return Json(new UserMovie().deleteUserMovie(strMovieID, User.Identity.Name), JsonRequestBehavior.AllowGet);
-        }
+        }*/
 
         public Double getMovieStars(String strMovieID)
         {
@@ -128,6 +129,7 @@ namespace MovieTheater.Controllers
             return Json(new UserMovie().getMostWatchedMovies(), JsonRequestBehavior.AllowGet);
         }
 
+        /* Shirit & Lior
         [HttpDelete]
         public JsonResult deleteMovie(String strMovieID)
         {
@@ -151,6 +153,17 @@ namespace MovieTheater.Controllers
         public JsonResult getAllMovies()
         {
             return Json(new Movie().getAllMovies(), JsonRequestBehavior.AllowGet);
+        }*/
+
+        // Shirit 101014
+        public JsonResult getMovies()
+        {
+            return Json(m.getAllMovies(), JsonRequestBehavior.AllowGet);
+        }
+
+        public Boolean removeMovieByID(String mID)
+        {
+            return (m.deleteMovie(mID));
         }
     }
 }

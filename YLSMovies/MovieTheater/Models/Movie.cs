@@ -67,6 +67,7 @@ namespace MovieTheater.Models
             return (answer);
         }
 
+        /* Shirit & Lior
         /// <summary>
         /// 
         /// </summary>
@@ -87,6 +88,53 @@ namespace MovieTheater.Models
 
             return (answer);
         }
+         
+         public Boolean deleteUserMovie(String movieToRemove, String strUserName)
+        {
+            Boolean answer = false;
+            TheaterContext context = new TheaterContext();
+            UserMovie um = context.UserMovies.SingleOrDefault(s => s.MovieID == movieToRemove && s.UserID == strUserName);
+            if (um != null)
+            {
+                context.UserMovies.Remove(um);
+                answer = context.SaveChanges() > 0;
+            }
+
+            return (answer);
+        }
+
+         */
+
+        /// <summary>
+        /// shirit 101014
+        /// </summary>
+        /// <param name="movieToDelete"></param>
+        /// <returns></returns>
+        public Boolean deleteMovie(String mID)
+        {
+            Boolean answer = false;
+            TheaterContext context = new TheaterContext();
+
+            Movie m = context.Movies.SingleOrDefault(s => s.IMDBID == mID);
+            if (m != null)
+            {
+                context.Movies.Remove(m);
+
+                var movieLink = from userMovies in context.UserMovies
+                                where userMovies.MovieID == mID
+                                select userMovies;
+
+                foreach (var currMovie in movieLink)
+                {
+                    context.UserMovies.Remove(currMovie);
+                }
+
+                answer = (context.SaveChanges() > 0);
+            }
+
+            return (answer);
+        }
+
 
         /// <summary>
         /// 
@@ -243,20 +291,7 @@ namespace MovieTheater.Models
             }
         }
 
-        public Boolean deleteUserMovie(String movieToRemove, String strUserName)
-        {
-            Boolean answer = false;
-            TheaterContext context = new TheaterContext();
-            UserMovie um = context.UserMovies.SingleOrDefault(s => s.MovieID == movieToRemove && s.UserID == strUserName);
-            if (um != null)
-            {
-                context.UserMovies.Remove(um);
-                answer = context.SaveChanges() > 0;
-            }
-
-            return (answer);
-        }
-
+        
         public static Boolean deleteUserMovie(String movieToRemove)
         {
             Boolean answer = false;

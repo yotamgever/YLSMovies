@@ -70,6 +70,7 @@ namespace MovieTheater.Models
             return (searches);
         }
 
+        /* shirit & lior
         /// <summary>
         /// Delete a search
         /// </summary>
@@ -82,6 +83,21 @@ namespace MovieTheater.Models
             if (s != null){
                 context.Searches.Remove(s);
             }
+
+            return (context.SaveChanges() > 0);
+        }*/
+
+        /// <summary>
+        /// Delete a search
+        /// shirit 101014
+        /// </summary>
+        /// <param name="nSearchID">Search ID</param>
+        /// <returns>True if there are searches that were deleted</returns>
+        public Boolean deleteSearch(Int32 nSearchID)
+        {
+            TheaterContext context = new TheaterContext();
+            Search s = context.Searches.SingleOrDefault(c => c.SearchID == nSearchID);
+            context.Searches.Remove(s);
 
             return (context.SaveChanges() > 0);
         }
@@ -172,6 +188,7 @@ namespace MovieTheater.Models
             return results;
         }
 
+        /*
         // Shirit
         public IQueryable<AllUsers> getAllUsers()
         {
@@ -190,10 +207,11 @@ namespace MovieTheater.Models
                            };
 
             return (searches);
-        }
+        }*/
     }
 
-    // Shirit
+    // Shirit 
+    /*
     public class AllUsers
     {
         public String userName { get; set; }
@@ -201,5 +219,5 @@ namespace MovieTheater.Models
         public String firstName { get; set; }
         public String lastName { get; set; }
         public Boolean admin { get; set; }
-    }
+    }*/
 }

@@ -331,7 +331,9 @@
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Search\SearchResults.cshtml" />
     <Content Include="Views\Home\HomePage.cshtml" />
-    <Content Include="Views\Home\Admin.cshtml" />
+    <Content Include="Views\Admin\DeleteMovie.cshtml" />
+    <Content Include="Views\Admin\DeleteSearch.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

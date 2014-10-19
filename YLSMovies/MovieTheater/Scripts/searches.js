@@ -252,11 +252,6 @@ $("a[href='#searches-filter-searches']")
         $("#searches-filter-searches form").show();
     });
 
-$("a[href='#admin-searches']")
-    .on('click', function (event) {
-        getAdminAllSearches();
-    });
-
 function commonSearchesGraph() {
     $("#searches-graph div").empty();
 
@@ -393,56 +388,3 @@ $(function () {
         minLength: 2
     });
 });
-
-function getAdminAllSearches() {
-    $.ajax({
-        url: "Search/getAllSearches",
-        type: "GET",
-        success: function (data) {
-            regExp = new RegExp(/\((.*?)\)/);
-
-            if ($.fn.DataTable.isDataTable($('#admin-all-searches'))) {
-                var oTable = $('#admin-all-searches').dataTable();
-            }
-            else {
-                var oTable = $('#admin-all-searches').dataTable({
-                    "autoWidth": false,
-                    "columnDefs": [{
-                        "targets": [2],
-                        "mRender": function (data, type, full) {
-                            return "<a onClick=\"deleteSearch('" +
-                                data + "')\">Delete Search</a>";
-                        }
-                    }]
-                });
-            }
-            oTable.fnClearTable();
-
-            var json = [];
-            for (i = 0; i < data.length; i++) {
-                json.push([(new Date(data[i].Date.match(regExp)[1] * 1)).toDateString(),
-                    data[i].SearchString, data[i].SearchID]);
-            }
-
-            oTable.fnAddData((json));
-        }
-    });
-}
-
-function deleteSearch(searchID) {
-    $.ajax({
-        url: "Search/deleteSearch",
-        type: "DELETE",
-        data: { "SearchID": searchID },
-        success: function (data) {
-            if (data == true) {
-                alert("Search Deleted!");
-                getAdminAllSearches()
-            }
-            else {
-                alert("Error");
-            }
-
-        }
-    });
-}

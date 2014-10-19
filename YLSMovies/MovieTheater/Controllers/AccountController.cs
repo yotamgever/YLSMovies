@@ -191,9 +191,29 @@ namespace MovieTheater.Controllers
         }
 
         // Shirit
-        public Boolean addAdmin(String strUserName)
+        public Boolean updateAdmin(String strUserName, Boolean isManager)
         {
-            return (u.addAdmin(strUserName));
+            return (u.updateAdmin(strUserName, isManager));
+        }
+
+        // Shirit
+        public Boolean removeUser(String strUserName)
+        {
+            bool answer = false;
+
+            if (Membership.DeleteUser(strUserName))
+            {
+                //answer = m.delete
+                answer = u.deleteUser(strUserName);
+            }
+
+            return (answer);
+        }
+
+        // Shirit
+        public JsonResult userManagement(String strUserName, String strFirstName, String strLastName)
+        {
+            return (Json(u.searchUser(strUserName, strFirstName, strLastName), JsonRequestBehavior.AllowGet));
         }
 
         #region Helpers

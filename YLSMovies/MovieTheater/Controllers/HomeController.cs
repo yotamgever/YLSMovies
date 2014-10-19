@@ -9,12 +9,8 @@ namespace MovieTheater.Controllers
 {
     public class HomeController : Controller
     {
-        // Shirit
-        User u = new User();
-
         public ActionResult Index()
         {
-            // Shirit - temp!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             ViewBag.isAdmin = MovieTheater.Models.User.isAdmin(User.Identity.Name);
 
             return View();
@@ -37,13 +33,6 @@ namespace MovieTheater.Controllers
         public ActionResult MovieGeneral()
         {
             return View();
-        }
-
-        // Shirit
-        public JsonResult getAdminPanel()
-        {
-            Search s = new Search();
-            return (Json(s.getAllUsers(), JsonRequestBehavior.AllowGet));
         }
     }
 }
