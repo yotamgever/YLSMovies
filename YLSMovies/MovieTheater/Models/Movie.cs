@@ -40,7 +40,7 @@ namespace MovieTheater.Models
 
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -285,7 +285,7 @@ namespace MovieTheater.Models
 
                 return (b);
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -319,7 +319,7 @@ namespace MovieTheater.Models
                     context.SaveChanges();
                     answer = true;
                 }
-                catch (Exception e)
+                catch
                 {
                     answer = false;
                 }

@@ -59,7 +59,7 @@ namespace MovieTheater.Models
 
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }

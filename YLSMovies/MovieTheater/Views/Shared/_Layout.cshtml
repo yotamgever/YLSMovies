@@ -122,6 +122,7 @@
                             <section class="plot"></section>
                         </div>
                         <div class="modal-footer">
+                            @if (User.Identity.IsAuthenticated) {
                             <div class="rating-wrap pull-left">
                                 <div class="radio-wrap">
                                     <input type="radio" name="rating" value="1" />
@@ -141,7 +142,13 @@
                                 </div>
                                 <div class="rating-blank"></div>
                             </div>
-                            <div id="buttons"></div>
+                            }
+                            <div id="buttons">
+                                <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                                @if (User.Identity.IsAuthenticated) {
+                                    <span id="modal-additional-buttons"></span>
+                                }
+                            </div>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->

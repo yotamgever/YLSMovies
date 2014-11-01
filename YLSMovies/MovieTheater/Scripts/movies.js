@@ -20,12 +20,6 @@ function getMovieByID(ID) {
             // reset the rating
             $("input:checked").attr('checked', false);
 
-            // reset the footer buttons
-            $(".modal-footer div[id='buttons']")
-                .empty()
-                .append(
-                "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>");
-
             $.ajax({
                 url: "Movie/isTheMovieOnMyList",
                 data: {
@@ -34,7 +28,7 @@ function getMovieByID(ID) {
                 type: "GET",
                 success: function (data) {
                     if (data == 'True') {
-                        $(".modal-footer div[id='buttons']").append(
+                        $("#modal-additional-buttons").append(
                             "<button type='button' class='btn btn-danger' onclick='removeMovie()'>Remove Movie From my List</button>");
                         $(".rating-wrap").show();
                         $.ajax({
@@ -52,7 +46,7 @@ function getMovieByID(ID) {
                         });
                     }
                     else {
-                        $(".modal-footer div[id='buttons']").append(
+                        $("#modal-additional-buttons").append(
                             "<button type='button' class='btn btn-primary' onclick='addMovie()'>Add Movie To List</button>");
                         $(".rating-wrap").hide();
                     }
