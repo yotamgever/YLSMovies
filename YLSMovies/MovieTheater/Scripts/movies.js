@@ -72,6 +72,9 @@ function addMovie() {
         },
         success: function (answer) {
             if (answer == "True") {
+                if ($("#my-movies h3")) {
+                    $("#my-movies").empty();
+                }
                 $("#my-movies").append("<span class='col-md-2 savedMovie' id='" + selectedMovie.imdbID +
                     "' onclick='getMovieByID(\"" + selectedMovie.imdbID
                 + "\")'>" + selectedMovie.Title +
@@ -119,6 +122,7 @@ function showMyMovies() {
                 $("#my-movies").append("<h3>You have no movies on your list</h3>");
             }
             for (i = 0; i < data.length; i++) {
+                $("#my-movies").empty();
                 $("#my-movies").append("<span class='col-md-2 savedMovie' id='" + data[i].IMDBID +
                     "' onclick='getMovieByID(\"" + data[i].IMDBID
                     + "\")'>" + data[i].Name +

@@ -9,7 +9,7 @@ namespace MovieTheater.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(MovieTheater.DAL.TheaterContext context)

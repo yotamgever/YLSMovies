@@ -28,7 +28,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Searches<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     @if (User.Identity.IsAuthenticated) {
-                                    <li><a href="#searches" role="tab" data-toggle="tab">My Searches</a></li>
+                                    <li><a href="#searches-my-searches" role="tab" data-toggle="tab">My Searches</a></li>
                                     }
                                     <li><a href="#searches-advance-search" role="tab" data-toggle="tab">Advance Search</a></li>
                                     <li class="divider"></li>
@@ -146,7 +146,7 @@
                             <div id="buttons">
                                 <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                                 @if (User.Identity.IsAuthenticated) {
-                                    <span id="modal-additional-buttons"></span>
+                                <span id="modal-additional-buttons"></span>
                                 }
                             </div>
                         </div>

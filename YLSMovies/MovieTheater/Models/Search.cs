@@ -166,7 +166,7 @@ namespace MovieTheater.Models
         public IQueryable<object> filterSearches(String strSearchString, DateTime dtFrom, DateTime dtTo, String strCountry)
         {
             TheaterContext context = new TheaterContext();
-            Country cTemp = new Country().getCountryByName(strCountry);
+            Country cTemp = Country.getCountryByName(strCountry);
             var results = from searches in context.Searches
                           join users in context.Users
                           on searches.UserName equals users.UserName

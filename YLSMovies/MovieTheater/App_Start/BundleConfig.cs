@@ -22,6 +22,7 @@ namespace MovieTheater
                         "~/Scripts/utilities*",
                         // Shirit - new:
                         "~/Scripts/user*",
+                        "~/Scripts/admin*",
                         "~/Scripts/searches*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
