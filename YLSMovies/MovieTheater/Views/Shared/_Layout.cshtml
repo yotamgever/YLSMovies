@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css", "~/Content/themes/base/css")
         @Scripts.Render("~/bundles/modernizr")
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPQW2YwrbB9gqT4fqUm3-AtP9FENcrWIU"></script>
     </head>
     <body>
         <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
@@ -22,6 +23,7 @@
                                     <li class="divider"></li>
                                     }
                                     <li><a href="#movies-top-rated" role="tab" data-toggle="tab">Top Rated Movies</a></li>
+                                    <li><a href="#movies-theaters" role="tab" data-toggle="tab">Theaters</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -143,7 +145,7 @@
                             <div id="buttons">
                                 <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
                                 @if (User.Identity.IsAuthenticated) {
-                                <span id="modal-additional-buttons"></span>
+                                    <span id="modal-additional-buttons"></span>
                                 }
                             </div>
                         </div>

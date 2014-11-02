@@ -280,6 +280,7 @@
     <Content Include="images\willsmith.jpg" />
     <Content Include="images\WorldsLargestIMAXCinemas.mp4" />
     <Content Include="images\Yotam.jpg" />
+    <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="images\Sorting icons.psd" />

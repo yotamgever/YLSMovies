@@ -262,3 +262,8 @@ input[value="1"]:hover + .rating-fill{
 	width:20%;
 }
 /*Rating end*/
+
+#theaters-map {
+    width: 1087px;
+    height: 380px;
+}

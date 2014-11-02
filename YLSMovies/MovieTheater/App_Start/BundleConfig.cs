@@ -20,10 +20,10 @@ namespace MovieTheater
             bundles.Add(new ScriptBundle("~/bundles/movie-theater").Include(
                         "~/Scripts/movies*", 
                         "~/Scripts/utilities*",
-                        // Shirit - new:
                         "~/Scripts/user*",
                         "~/Scripts/admin*",
-                        "~/Scripts/searches*"));
+                        "~/Scripts/searches*",
+                        "~/Scripts/locations*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));
