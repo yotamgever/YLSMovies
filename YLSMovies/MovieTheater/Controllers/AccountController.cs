@@ -69,7 +69,6 @@ namespace MovieTheater.Controllers
                     u.CountryID = Country.getCountryByName(strCountry).CountryID;
                     u.addUser();
                     WebSecurity.Login(strUserName, strPassword);
-                    //return RedirectToAction("Index", "Home");
                     return true;
                 }
                 catch (MembershipCreateUserException e)
@@ -78,8 +77,6 @@ namespace MovieTheater.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
-            //return View(model);
             return false;
         }
 
@@ -112,91 +109,11 @@ namespace MovieTheater.Controllers
             return RedirectToAction("Manage", new { Message = message });
         }
 
-        //
-        // GET: /Account/Manage
-
-        public ActionResult Manage(ManageMessageId? message)
-        {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : "";
-            ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
-        }
-
-        //
-        // POST: /Account/Manage
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocalPasswordModel model)
-        {
-            bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.HasLocalPassword = hasLocalAccount;
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            if (hasLocalAccount)
-            {
-                if (ModelState.IsValid)
-                {
-                    // ChangePassword will throw an exception rather than return false in certain failure scenarios.
-                    bool changePasswordSucceeded;
-                    try
-                    {
-                        changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-                    }
-                    catch (Exception)
-                    {
-                        changePasswordSucceeded = false;
-                    }
-
-                    if (changePasswordSucceeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-                    }
-                }
-            }
-            else
-            {
-                // User does not have a local password so remove any validation errors caused by a missing
-                // OldPassword field
-                ModelState state = ModelState["OldPassword"];
-                if (state != null)
-                {
-                    state.Errors.Clear();
-                }
-
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
-                    }
-                    catch (Exception e)
-                    {
-                        ModelState.AddModelError("", e);
-                    }
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
-        // Shirit
         public Boolean updateAdmin(String strUserName, Boolean isManager)
         {
             return (u.updateAdmin(strUserName, isManager));
         }
 
-        // Shirit
         public Boolean removeUser(String strUserName)
         {
             bool answer = false;
@@ -210,7 +127,6 @@ namespace MovieTheater.Controllers
             return (answer);
         }
 
-        // Shirit
         public JsonResult userManagement(String strUserName, String strFirstName, String strLastName)
         {
             return (Json(u.searchUser(strUserName, strFirstName, strLastName), JsonRequestBehavior.AllowGet));

@@ -106,10 +106,10 @@ namespace MovieTheater.Models
          */
 
         /// <summary>
-        /// shirit 101014
+        /// This function removes the movie according to the ID from user lists and the movies list
         /// </summary>
-        /// <param name="movieToDelete"></param>
-        /// <returns></returns>
+        /// <param name="movieToDelete">Movie to delet</param>
+        /// <returns>True if removed</returns>
         public Boolean deleteMovie(String mID)
         {
             Boolean answer = false;
@@ -315,7 +315,7 @@ namespace MovieTheater.Models
                 try
                 {
                     TheaterContext context = new TheaterContext();
-                    context.UserMovies.Remove(new UserMovie { MovieID = movieToRemove, UserID = strUserName });
+                    context.UserMovies.Remove(context.UserMovies.FirstOrDefault(m => m.MovieID == movieToRemove && m.UserID == strUserName));
                     context.SaveChanges();
                     answer = true;
                 }

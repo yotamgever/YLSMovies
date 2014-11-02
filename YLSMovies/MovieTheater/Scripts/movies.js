@@ -28,7 +28,7 @@ function getMovieByID(ID) {
                 type: "GET",
                 success: function (data) {
                     if (data == 'True') {
-                        $("#modal-additional-buttons").append(
+                        $("#modal-additional-buttons").html(
                             "<button type='button' class='btn btn-danger' onclick='removeMovie()'>Remove Movie From my List</button>");
                         $(".rating-wrap").show();
                         $.ajax({
@@ -46,7 +46,7 @@ function getMovieByID(ID) {
                         });
                     }
                     else {
-                        $("#modal-additional-buttons").append(
+                        $("#modal-additional-buttons").html(
                             "<button type='button' class='btn btn-primary' onclick='addMovie()'>Add Movie To List</button>");
                         $(".rating-wrap").hide();
                     }
@@ -87,7 +87,6 @@ function addMovie() {
     });
 }
 
-
 function removeMovie(movieToRemove) {
     movieToRemove = movieToRemove || selectedMovie.imdbID;
     $.ajax({
@@ -100,7 +99,16 @@ function removeMovie(movieToRemove) {
             if (answer == true) {
                 $("#my-movies span[id='" + movieToRemove + "']").remove();
                 alert("Movie has been removed from your list");
-                $("#myModal").modal('toggle');
+
+                // if there are no movies
+                if ($("#my-movies>span").length) {
+                    $("#my-movies").append("<h3>You have no movies on your list</h3>");
+                }
+
+                // if this modal is shown
+                if ($("#myModal").css("display") != "none") {
+                    $("#myModal").modal('toggle');
+                }
             }
         }
     });
@@ -136,8 +144,6 @@ function showMyMovies() {
         }
     });
 }
-
-
 
 function showTopRatedMovies() {
     $.ajax({

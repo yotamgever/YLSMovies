@@ -63,7 +63,6 @@ function advanceSearchMovie(params) {
         type: "GET",
         success: function (data) {
             data = JSON.parse(data);
-            debugger;
             $("#movie-focused").hide();
             $("#movie-search-results").show();
 

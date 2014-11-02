@@ -1,6 +1,6 @@
 ﻿@if (Request.IsAuthenticated) {
     <li>
-        <p class="navbar-text">Hello, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
+        <p class="navbar-text">Hello, @User.Identity.Name!
             @Html.AntiForgeryToken()
             <a onclick="logoff()">Log Off</a>
         </p>

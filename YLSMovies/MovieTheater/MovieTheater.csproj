@@ -275,6 +275,7 @@
     <Content Include="images\sort_both.png" />
     <Content Include="images\sort_desc.png" />
     <Content Include="images\sort_desc_disabled.png" />
+    <Content Include="images\star.png" />
     <Content Include="images\StevenSpielberg.jpg" />
     <Content Include="images\willsmith.jpg" />
     <Content Include="images\WorldsLargestIMAXCinemas.mp4" />

@@ -106,11 +106,11 @@ namespace MovieTheater.Controllers
             return (m.updateStars(strMovieID, nStars));
         }
 
-        /*
+        
         public JsonResult removeMovieFromUserList(String strMovieID)
         {
-            return Json(new UserMovie().deleteUserMovie(strMovieID, User.Identity.Name), JsonRequestBehavior.AllowGet);
-        }*/
+            return Json(UserMovie.deleteMovieFromUserList(strMovieID, User.Identity.Name), JsonRequestBehavior.AllowGet);
+        }
 
         public Double getMovieStars(String strMovieID)
         {
@@ -129,41 +129,21 @@ namespace MovieTheater.Controllers
             return Json(new UserMovie().getMostWatchedMovies(), JsonRequestBehavior.AllowGet);
         }
 
-        /* Shirit & Lior
-        [HttpDelete]
-        public JsonResult deleteMovie(String strMovieID)
-        {
-            Boolean result = false;
-            IEnumerable<Movie> movies = new Movie().getAllMovies();
-
-            // if current user is admin, and if the movie is in the DB
-            if (!User.Identity.Name.Equals("") && MovieTheater.Models.User.isAdmin(User.Identity.Name) &&
-                movies.FirstOrDefault(m => m.IMDBID == strMovieID) != null)
-            {
-                // First - Delete the movie from UserMovies
-                UserMovie.deleteUserMovie(strMovieID);
-
-                // Then, Delete the movie
-                result = new Movie { IMDBID = strMovieID }.deleteMovie();
-            }
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult getAllMovies()
-        {
-            return Json(new Movie().getAllMovies(), JsonRequestBehavior.AllowGet);
-        }*/
-
-        // Shirit 101014
         public JsonResult getMovies()
         {
             return Json(m.getAllMovies(), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpDelete]
         public Boolean removeMovieByID(String mID)
         {
-            return (m.deleteMovie(mID));
+            // if current user is admin
+            if (!User.Identity.Name.Equals("") && MovieTheater.Models.User.isAdmin(User.Identity.Name))
+            {
+                return (m.deleteMovie(mID));
+            }
+
+            return false;
         }
     }
 }
