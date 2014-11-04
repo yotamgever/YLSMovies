@@ -70,23 +70,6 @@ namespace MovieTheater.Models
             return (searches);
         }
 
-        /* shirit & lior
-        /// <summary>
-        /// Delete a search
-        /// </summary>
-        /// <param name="nSearchID">Search ID</param>
-        /// <returns>True if there are searches that were deleted</returns>
-        public Boolean deleteSearch()
-        {
-            TheaterContext context = new TheaterContext();
-            Search s = context.Searches.SingleOrDefault(c => c.SearchID == this.SearchID);
-            if (s != null){
-                context.Searches.Remove(s);
-            }
-
-            return (context.SaveChanges() > 0);
-        }*/
-
         /// <summary>
         /// Delete a search
         /// shirit 101014
@@ -187,37 +170,5 @@ namespace MovieTheater.Models
 
             return results;
         }
-
-        /*
-        // Shirit
-        public IQueryable<AllUsers> getAllUsers()
-        {
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
-
-            var searches = from userMovies in context.UserMovies
-                           join users in context.Users on userMovies.UserID equals users.UserName
-                           group userMovies by new { users.UserName, users.FirstName, users.LastName, users.Admin } into pGroup
-                           select new AllUsers()
-                           {
-                               userName = pGroup.Key.UserName,
-                               firstName = pGroup.Key.FirstName,
-                               lastName = pGroup.Key.LastName,
-                               admin = pGroup.Key.Admin,
-                               moviesNum = pGroup.Count()
-                           };
-
-            return (searches);
-        }*/
     }
-
-    // Shirit 
-    /*
-    public class AllUsers
-    {
-        public String userName { get; set; }
-        public Int32 moviesNum { get; set; }
-        public String firstName { get; set; }
-        public String lastName { get; set; }
-        public Boolean admin { get; set; }
-    }*/
 }

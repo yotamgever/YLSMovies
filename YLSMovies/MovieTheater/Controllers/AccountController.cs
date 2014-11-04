@@ -13,13 +13,22 @@ using MovieTheater.Models;
 
 namespace MovieTheater.Controllers
 {
+    /// <summary>
+    /// Handles the users in the Movie Theatre
+    /// </summary>
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
-        // Shirit
         User u = new User();
 
+        /// <summary>
+        /// This method handles the user login according to parameters
+        /// </summary>
+        /// <param name="strUserName">String. The user name</param>
+        /// <param name="strPassword">String. The user password</param>
+        /// <param name="bRememberMe">Boolean. Whether to remember for future logins or not</param>
+        /// <returns>Empty if succeeded, Message otherwise</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -34,9 +43,10 @@ namespace MovieTheater.Controllers
             return "The user name or password provided is incorrect.";
         }
 
-        //
-        // POST: /Account/LogOff
-
+        /// <summary>
+        /// This method handles the user logoff
+        /// </summary>
+        /// <returns>bool. True if succeeded, flase otherwise</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public bool LogOff()
@@ -45,9 +55,16 @@ namespace MovieTheater.Controllers
             return true;
         }
 
-        //
-        // POST: /Account/Register
-
+        /// <summary>
+        /// This method handles the user registration according to parameters
+        /// </summary>
+        /// <param name="strFirstName">String. The user first name</param>
+        /// <param name="strLastName">String. The user last name</param>
+        /// <param name="strBirthDate">String. The user birth date</param>
+        /// <param name="strCountry">String. The user country</param>
+        /// <param name="strUserName">String. The user system-name</param>
+        /// <param name="strPassword">String. The user system-password</param>
+        /// <returns>Boolean. True if succeeded, flase otherwise</returns>
         [HttpPost]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
@@ -60,10 +77,12 @@ namespace MovieTheater.Controllers
                 try
                 {
                     WebSecurity.CreateUserAndAccount(strUserName, strPassword);
-                    // Shirit
+                
                     u.UserName = strUserName;
                     u.FirstName = strFirstName;
                     u.LastName = strLastName;
+
+                    // Only admins can promote users to be admin
                     u.Admin = false;
                     u.BirthDate = Convert.ToDateTime(strBirthDate);
                     u.CountryID = Country.getCountryByName(strCountry).CountryID;

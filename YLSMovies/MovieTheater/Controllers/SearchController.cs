@@ -15,7 +15,7 @@ namespace MovieTheater.Controllers
             return (Json(s.getAllSearches(), JsonRequestBehavior.AllowGet));
         }
 
-        // Shirit
+        
         public JsonResult getSearchedByUser()
         {
             Search s = new Search();
@@ -35,24 +35,6 @@ namespace MovieTheater.Controllers
                 strCountry), JsonRequestBehavior.AllowGet);
         }
 
-        /* Shirit & Lior
-        [HttpDelete]
-        public JsonResult deleteSearch(Int32 SearchID)
-        {
-            Boolean result = false;
-            IEnumerable<Search> searches = new Search().getAllSearches();
-
-            // if current user is admin, and if the search is in the DB
-            if (!User.Identity.Name.Equals("") && MovieTheater.Models.User.isAdmin(User.Identity.Name) &&
-                searches.FirstOrDefault(s=> s.SearchID == SearchID) != null)
-            {
-                result = new Search { SearchID = SearchID }.deleteSearch();
-            }
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }*/
-
-        // Shirit 101014
         public Boolean removeSearch(Int32 nSearech)
         {
             return (new Search().deleteSearch(nSearech));
