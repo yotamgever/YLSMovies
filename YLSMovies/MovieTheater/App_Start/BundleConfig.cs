@@ -15,9 +15,10 @@ namespace MovieTheater
                         "~/Scripts/bootstrap*",
                          "~/Scripts/d3*",
                         "~/Scripts/jquery.dataTables*",
-                        "~/Scripts/dataTables*"));
+                        "~/Scripts/dataTables.bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/movie-theater").Include(
+                        "~/Scripts/pageStructure*", 
                         "~/Scripts/movies*", 
                         "~/Scripts/utilities*",
                         "~/Scripts/user*",
@@ -38,9 +39,10 @@ namespace MovieTheater
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/bootstrap*", 
+                "~/Content/bootstrap.css", 
                 "~/Content/jquery.dataTables.css",
-                "~/Content/MovieTheater.css"));
+                "~/Content/MovieTheater.css",
+                "~/Content/dataTables.bootstrap.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

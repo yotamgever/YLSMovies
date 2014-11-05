@@ -21,7 +21,11 @@ namespace MovieTheater.Models
         [ForeignKey("Country")]
         public Int32 CountryID { get; set; }
 
-        // Shirit
+        /// <summary>
+        /// This method checks if the user is admin
+        /// </summary>
+        /// <param name="strUserName">Username</param>
+        /// <returns>True if user is admin</returns>
         public static Boolean isAdmin(String strUserName)
         {
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
@@ -33,6 +37,12 @@ namespace MovieTheater.Models
             return (answer.Count() == 1);
         }
 
+        /// <summary>
+        /// This method promotes/denotes the user to admin / simple user
+        /// </summary>
+        /// <param name="strUserName">Username</param>
+        /// <param name="isManager">True - promote, False - denote</param>
+        /// <returns>True if the action succeeded</returns>
         public Boolean updateAdmin(String strUserName, Boolean isManager)
         {
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
@@ -50,10 +60,14 @@ namespace MovieTheater.Models
             return (answer);
         }
 
-        // Shirit
+        /// <summary>
+        /// This method adds new user
+        /// </summary>
+        /// <returns>True if the addition succeeded</returns>
         public Boolean addUser()
         {
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
+
             try
             {
                 context.Users.Add(this);
@@ -67,31 +81,22 @@ namespace MovieTheater.Models
             }
         }
 
-        /* Shirit & Lior
-        public Boolean deleteUser(String strUserName)
-        {
-            Boolean answer = false;
-            MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
-            User u = context.Users.SingleOrDefault(s => s.UserName == strUserName);
-            if (u != null)
-            {
-                context.Users.Remove(u);
-                answer = context.SaveChanges() > 0;
-            }
-
-            return (answer);
-        }*/
-
-        // Shirit 101014
+        /// <summary>
+        /// This method deletes the user
+        /// </summary>
+        /// <param name="strUserName">Username</param>
+        /// <returns>True if action succeeded</returns>
         public Boolean deleteUser(String strUserName)
         {
             Boolean answer = false;
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
 
+            // Get user's movie
             var currUserMovies = from userMovies in context.UserMovies
                                  where userMovies.UserID == strUserName
                                  select userMovies;
 
+            // Remove the user's movies
             foreach (var currMovie in currUserMovies)
             {
                 context.UserMovies.Remove(currMovie);
@@ -109,6 +114,13 @@ namespace MovieTheater.Models
             return (answer);
         }
 
+        /// <summary>
+        /// This method get users by parameters
+        /// </summary>
+        /// <param name="strUserName">Username</param>
+        /// <param name="strFirstName">Firstname</param>
+        /// <param name="strLastName">Lastname</param>
+        /// <returns>List of users that fit the given parameters</returns>
         public IQueryable<object> searchUser(String strUserName, String strFirstName, String strLastName)
         {
             MovieTheater.DAL.TheaterContext context = new DAL.TheaterContext();
@@ -127,7 +139,6 @@ namespace MovieTheater.Models
 
             return (search);
         }
-
     }
 
     public class Country

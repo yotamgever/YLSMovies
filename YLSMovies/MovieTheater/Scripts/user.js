@@ -1,22 +1,27 @@
-﻿$('#register-country').autocomplete({
-    source: function (request, response) {
-        $.ajax({
-            url: 'Country/getAllCountries',
-            type: 'GET',
-            dataType: 'json',
-            data: request,
-            success: function (data) {
-                response($.map(data, function (value, key) {
-                    return {
-                        label: value.Name,
-                        value: value.Name
-                    };
-                }));
+﻿function login() {
+    $.ajax({
+        url: "Account/Login",
+        type: "POST",
+        data: {
+            '__RequestVerificationToken': $("input[name='__RequestVerificationToken']").val(),
+            strUserName: $("#login-username").val(),
+            strPassword: $("#login-password").val(),
+            bRememberMe: ($("#login-remember:checked").length == 1 ? true : false)
+        },
+        success: function (data) {
+            if (data == "") {
+                location.reload();
+                $("a[href='#movies-my-movies']").click();
             }
-        });
-    },
-    minLength: 2
-});
+            else {
+                $("#login-message")
+                    .text(data)
+                    .show();
+
+            }
+        }
+    });
+}
 
 function register() {
     $.ajax({

@@ -67,44 +67,6 @@ namespace MovieTheater.Models
             return (answer);
         }
 
-        /* Shirit & Lior
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="movieToDelete"></param>
-        /// <returns></returns>
-        public Boolean deleteMovie()
-        {
-            Boolean answer = false;
-            TheaterContext context = new TheaterContext();
-            Movie specificMovie = context.Movies.SingleOrDefault(m => m.IMDBID == this.IMDBID);
-
-            if (specificMovie != null)
-            {
-                context.Movies.Remove(specificMovie);
-                context.SaveChanges();
-                answer = true;
-            }
-
-            return (answer);
-        }
-         
-         public Boolean deleteUserMovie(String movieToRemove, String strUserName)
-        {
-            Boolean answer = false;
-            TheaterContext context = new TheaterContext();
-            UserMovie um = context.UserMovies.SingleOrDefault(s => s.MovieID == movieToRemove && s.UserID == strUserName);
-            if (um != null)
-            {
-                context.UserMovies.Remove(um);
-                answer = context.SaveChanges() > 0;
-            }
-
-            return (answer);
-        }
-
-         */
-
         /// <summary>
         /// This function removes the movie according to the ID from user lists and the movies list
         /// </summary>

@@ -27,7 +27,6 @@ namespace MovieTheater.Controllers
             return View();
         }
 
-        // Shirit
         [HttpPost]
         public bool addNewMovieToUser(String strIMDBID, String strName, String strDirector, Int32 nYear)
         {
@@ -38,7 +37,6 @@ namespace MovieTheater.Controllers
         public JsonResult searchMoviesByTitle(String strTitle)
         {
             Search s = new Search();
-            // Shirit
             IQueryable<Search> searches = s.getSearchesOfUser(User.Identity.Name);
             IQueryable<Search> specific = searches.Where(c => c.SearchString == strTitle);
 
@@ -51,7 +49,6 @@ namespace MovieTheater.Controllers
             }
             else
             {
-                // Shirit
                 s.addSearch(new Search { UserName = User.Identity.Name, SearchString = strTitle, Date = DateTime.Now });
             }
 
@@ -106,7 +103,6 @@ namespace MovieTheater.Controllers
             return (m.updateStars(strMovieID, nStars));
         }
 
-        
         public JsonResult removeMovieFromUserList(String strMovieID)
         {
             return Json(UserMovie.deleteMovieFromUserList(strMovieID, User.Identity.Name), JsonRequestBehavior.AllowGet);

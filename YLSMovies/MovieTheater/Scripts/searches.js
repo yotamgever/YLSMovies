@@ -226,28 +226,6 @@ function getCommonSearches() {
     });
 }
 
-$("a[href='#searches-my-searches']")
-    .on('click', function (event) {
-        getUserSearches();
-    });
-
-$("a[href='#searches-all-searches']")
-    .on('click', function (event) {
-        getAllSearches();
-    });
-
-$("a[href='#searches-graph']")
-    .on('click', function (event) {
-        commonSearchesGraph()
-    });
-
-$("a[href='#searches-filter-searches']")
-    .on('click', function (event) {
-        $("#searches-filter-results").hide();
-        $("#searches-filter-searches form")[0].reset();
-        $("#searches-filter-searches form").show();
-    });
-
 function commonSearchesGraph() {
     $("#searches-graph div").empty();
 
@@ -299,24 +277,6 @@ function commonSearchesGraph() {
 
 }
 
-$(document).ready(function () {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-
-    var yyyy = today.getFullYear();
-    if (dd < 10) { dd = '0' + dd } if (mm < 10) { mm = '0' + mm } today = yyyy + '-' + mm + '-' + dd;
-
-    $('#filter-to').attr('max', today);
-    $('#filter-from').attr('value', today);
-    $('#filter-to').attr('value', today);
-    $('#filter-to').on('change', function () {
-        $('#filter-from')
-            .attr('max', $(this).val());
-    });
-    $('#filter-from').on('change', function () { $('#filter-to').attr('min', $(this).val()) });
-});
-
 function filterSearches() {
     params = {};
     params.strSearchString = $("#filter-search-string").val() || "";
@@ -363,24 +323,3 @@ function filterSearches() {
     });
 } 
 
-$(function () {
-    $('#filter-country').autocomplete({
-        source: function (request, response) {
-            $.ajax({
-                url: 'Country/getAllCountries',
-                type: 'GET',
-                dataType: 'json',
-                data: request,
-                success: function (data) {
-                    response($.map(data, function (value, key) {
-                        return {
-                            label: value.Name,
-                            value: value.Name
-                        };
-                    }));
-                }
-            });
-        },
-        minLength: 2
-    });
-});

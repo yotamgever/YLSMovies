@@ -200,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery.dataTables.css" />
     <Content Include="Content\MovieTheater.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -286,6 +287,7 @@
     <Content Include="images\Sorting icons.psd" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\FIGHTT.ttf" />
+    <Content Include="Content\dataTables.bootstrap" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\d3.js" />
     <Content Include="Scripts\d3.layout.cloud.js" />
@@ -305,6 +307,7 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\movies.js" />
     <Content Include="Scripts\locations.js" />
+    <Content Include="Scripts\pageStructure.js" />
     <Content Include="Scripts\searches.js" />
     <Content Include="Scripts\user.js" />
     <Content Include="Scripts\utilities.js" />

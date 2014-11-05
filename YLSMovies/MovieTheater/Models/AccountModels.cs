@@ -76,7 +76,6 @@ namespace MovieTheater.Models
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
-        // Shirit start
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
         [Display(Name = "First Name")]
@@ -86,17 +85,6 @@ namespace MovieTheater.Models
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        /*[Required]
-        [StringLength(100, ErrorMessage = "The {0} must be written in the following format: yyyy-mm-dd.", MinimumLength = 2)]
-        [Display(Name = "Bitrhday")]
-        [DataType(DataType.Date)]
-        public DateTime Birthday { get; set; }
-
-        [Required]
-        [Display(Name = "Country")]
-        public Country Country { get; set; }*/
-        // Shirit end
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -137,12 +125,5 @@ namespace MovieTheater.Models
 
             return (errorMessage);
         }
-    }
-
-    public class ExternalLogin
-    {
-        public string Provider { get; set; }
-        public string ProviderDisplayName { get; set; }
-        public string ProviderUserId { get; set; }
     }
 }

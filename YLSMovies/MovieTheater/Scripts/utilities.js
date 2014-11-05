@@ -301,3 +301,21 @@ function handleMouseOut() {
     mouseX = 99999;
     mouseY = 99999;
 }
+
+$(document).ready(function () {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if (dd < 10) { dd = '0' + dd } if (mm < 10) { mm = '0' + mm } today = yyyy + '-' + mm + '-' + dd;
+
+    $('#filter-to').attr('max', today);
+    $('#filter-from').attr('value', today);
+    $('#filter-to').attr('value', today);
+    $('#filter-to').on('change', function () {
+        $('#filter-from')
+            .attr('max', $(this).val());
+    });
+    $('#filter-from').on('change', function () { $('#filter-to').attr('min', $(this).val()) });
+});

@@ -72,7 +72,6 @@ namespace MovieTheater.Models
 
         /// <summary>
         /// Delete a search
-        /// shirit 101014
         /// </summary>
         /// <param name="nSearchID">Search ID</param>
         /// <returns>True if there are searches that were deleted</returns>
